@@ -1,11 +1,7 @@
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -119,11 +115,6 @@ public class ExcelExport {
             createDataCells(personArrayList);
             resizeColumns();
             writeFileOut();
-            // Resize all columns to fit the content size
-
-
-            // Write the output to a file
-
     }
 
 }

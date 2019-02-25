@@ -29,6 +29,12 @@ public class FileRead {
         newExport.create(getPersonsArrayDeque());
     }
 
+    public void pdfExport()
+    {
+        PdfExport newExport = new PdfExport();
+        newExport.create(getPersonsArrayDeque());
+    }
+
     private void readPersonsNames() {
         readPersonsFirstName();
         readPersonsSecondName();
