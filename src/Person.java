@@ -21,24 +21,6 @@ public class Person {
         setAutoGenINN();
     }
 
-    public void printPersonData()
-    {
-        printPersonFullName();
-        printSpecialData();
-        printLocation();
-    }
-    public void printPersonFullName()
-    {
-        System.out.println("Name " + name + '\n' + "Second name " + secondName + '\n' + "Third name " + thirdName + '\n');
-    }
-    public void printSpecialData()
-    {
-        System.out.println("Age " + age + '\n' + "Birth date " + birthDate + '\n' + "INN " + INN + '\n' + "Index " + index + '\n');
-    }
-    public void printLocation()
-    {
-        System.out.println("Country " + country + '\n' + "Region " + region + '\n' + "City " + city + '\n' + "House " + house + '\n');
-    }
     public void setAutoGenGender()
     {
         if (thirdName.charAt(thirdName.length()-1)=='а') setGender('Ж');
@@ -174,7 +156,7 @@ public class Person {
         this.flat = flat;
     }
 
-    public int getFullAge(Date birthDate)
+    private int getFullAge(Date birthDate)
     {
         Date modernDate = new Date();
         long difference = (modernDate.getTime()-birthDate.getTime())/1000; //calculate difference and convert it into sec

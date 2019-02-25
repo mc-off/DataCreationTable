@@ -39,7 +39,7 @@ public class PersonalINNGenerator {
         return stringINN;
     }
 
-    public void setNewINN()
+    private void setNewINN()
     {
         ArrayList newArray = new ArrayList();
         for (int i=0;i<12;i++)
@@ -55,7 +55,7 @@ public class PersonalINNGenerator {
     }
 
 
-    public void setOfficeArrayOfReg77()
+    private void setOfficeArrayOfReg77()
     {
         int[] newOfficeArray = new int[40];
 
@@ -70,12 +70,12 @@ public class PersonalINNGenerator {
 
         setOfficeArray(newOfficeArray);
     }
-    public void setOfficeArray(int[] newOfficeArray)
+    private void setOfficeArray(int[] newOfficeArray)
     {
         this.officeArray = newOfficeArray;
     }
 
-    public void setRegion(int newRegion)
+    private void setRegion(int newRegion)
     {
         this.region=newRegion;
     }

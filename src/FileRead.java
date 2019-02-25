@@ -265,7 +265,7 @@ public class FileRead {
         } while (flag == false);
         return (file);
     }
-    public Date getDate(String str_date) throws java.text.ParseException{
+    private Date getDate(String str_date) throws java.text.ParseException{
         DateFormat formatter;
         Date date;
         formatter = new SimpleDateFormat("dd.mm.yyyy");
@@ -273,7 +273,7 @@ public class FileRead {
         return date;
     }
 
-    public void getNewPersonsList(int personNumber)
+    private void getNewPersonsList(int personNumber)
     {
         ArrayList<Person> newPersonArrayDeque = new ArrayList<>();
         for (int i=0;i<personNumber;i++)

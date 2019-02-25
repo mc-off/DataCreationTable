@@ -24,13 +24,13 @@ public class ExcelExport {
             "Возраст", "Дата рождения", "ИНН", "Индекс", "Страна", "Регион", "Город", "Улица", "Дом", "Квартира" };
     ExcelExport(){}
 
-    public void setNewWorkbook()
+    private void setNewWorkbook()
     {
         Workbook workbook = new HSSFWorkbook();
         this.workbook=workbook;
     }
 
-    public void setNewSheet(String name)
+    private void setNewSheet(String name)
     {
         Sheet sheet = getWorkbook().createSheet(name);
         this.sheet=sheet;
@@ -41,7 +41,7 @@ public class ExcelExport {
         return workbook;
     }
 
-    public void setFont()
+    private void setFont()
     {
         Font headerFont = getWorkbook().createFont();
         headerFont.setBold(true);
@@ -53,7 +53,7 @@ public class ExcelExport {
         this.headerFont = headerFont;
         this.headerCellStyle = headerCellStyle;
     }
-    public void createRow()
+    private void createRow()
     {
         Row headerRow = sheet.createRow(0);
 
@@ -65,7 +65,7 @@ public class ExcelExport {
         this.headerRow = headerRow;
     }
 
-    public void createDataCells(ArrayList<Person> personArrayList)
+    private void createDataCells(ArrayList<Person> personArrayList)
     {
         int rowNum = 1;
 
@@ -88,13 +88,13 @@ public class ExcelExport {
             row.createCell(i).setCellValue(person.getFlat());i++;
         }
     }
-    public void resizeColumns()
+    private void resizeColumns()
     {
         for (int i = 0; i < columns.length; i++) {
             sheet.autoSizeColumn(i);
         }
     }
-    public void writeFileOut()
+    private void writeFileOut()
     {
         try {
             FileOutputStream fileOut = new FileOutputStream("contacts.xls");

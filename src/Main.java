@@ -6,7 +6,6 @@ public class Main {
         newFileRead.take(maxPersonReadNumber);
         newFileRead.excelExport();
         newFileRead.pdfExport();
-
     }
 
 }
