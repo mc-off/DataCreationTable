@@ -1,7 +1,7 @@
 # DataCreationTable
 Program for creating organised table from user's data. 
 
-Program uses data from /resourses files and compare them to one file .XML and .PDF.
+Program uses data from /resourses files and unite them to one .XML and .PDF file.
 
 The program uses several libraries that are **necessary** for the full functionality of the program.
 
