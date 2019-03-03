@@ -3,6 +3,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,11 +15,15 @@ public class PdfExport {
     private Document document;
     private PdfPTable table;
     private Font font;
+    private static String[] columns = { "Name", "Second name", "Third name", "Gender",
+            "Age", "Birth date", "INN", "Index", "Country", "Region", "City", "Street", "House", "Flat" };
+    private File pdfFile;
     PdfExport(){}
+
     public void create(ArrayList<Person> personArrayList)
     {
         createNewDocumnet();
-        createTable(13);
+        createTable(columns.length);
         addTableHeader(table);
         setFont();
         for (Person person:personArrayList)
@@ -32,9 +38,8 @@ public class PdfExport {
     {
         try {
             try {
-                BaseFont bf = BaseFont.createFont("resources/arialk.ttf",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-                Font font = new Font(bf);
-                this.font = font;
+                BaseFont bf = BaseFont.createFont("src/main/resources/arialk.ttf",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                this.font = new Font(bf);
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
@@ -45,15 +50,18 @@ public class PdfExport {
         }
     }
 
-    public Font getFont()
+    private Font getFont()
     {
         return font;
     }
-    public void closeDocument()
+
+    private void closeDocument()
     {
         document.close();
+        System.out.println("Файл .PDF создан. Путь:" + " " + pdfFile.getAbsolutePath());
     }
-    public void addTableToDocument()
+
+    private void addTableToDocument()
     {
         try {
             document.add(table);
@@ -62,6 +70,11 @@ public class PdfExport {
         {
             e.printStackTrace();
         }
+    }
+
+    private void setPdfFile(File newFile)
+    {
+        this.pdfFile = newFile;
     }
     public void createTable(int numColumns)
     {
@@ -77,12 +90,13 @@ public class PdfExport {
             e.printStackTrace();
         }
     }
-    public void createNewDocumnet()
+    private void createNewDocumnet()
     {
         try {
             try {
                 Document document = new Document(PageSize.A0.rotate(),0,0,0,0);
-                PdfWriter.getInstance(document, new FileOutputStream("Persons.pdf"));
+                setPdfFile(new File(("Persons.pdf")));
+                PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
                 document.open();
                 this.document = document;
             } catch (FileNotFoundException e) {
@@ -94,9 +108,8 @@ public class PdfExport {
             e.printStackTrace();
         }
     }
-    public void addTableHeader(PdfPTable table) {
-        Stream.of("Name", "Second name", "Third name",
-                "Age", "Birthday", "INN", "Index", "Country", "Region", "City", "Street", "House", "Flat" )
+    private void addTableHeader(PdfPTable table) {
+        Stream.of(columns)
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -105,14 +118,13 @@ public class PdfExport {
                     table.addCell(header);
                 });
     }
-    public void addRows(Person person) {
-
-        try {
+    private void addRows(Person person) {
             table.addCell(new Phrase(person.getName(),getFont()));
             table.addCell(new Phrase(person.getSecondName(),getFont()));
             table.addCell(new Phrase(person.getThirdName(),getFont()));
+            table.addCell(new Phrase(String.valueOf(person.getGender()),getFont()));
             table.addCell(String.valueOf(person.getAge()));
-            table.addCell(person.getBirthDay().toString());
+            table.addCell(person.getNiceLookingDate());
             table.addCell(person.getINN());
             table.addCell((String.valueOf(person.getIndex())));
             table.addCell(new Phrase(person.getCountry(),getFont()));
@@ -122,11 +134,6 @@ public class PdfExport {
             table.addCell(String.valueOf(person.getHouse()));
             table.addCell(String.valueOf(person.getFlat()));
             table.setKeepTogether(true);
-        }
-        catch (Exception E)
-        {
-            E.printStackTrace();
-        }
     }
 
 }

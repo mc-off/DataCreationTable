@@ -1,0 +1,16 @@
+#Output files
+
+*.xls
+*.pdf
+
+#Intellij IDEA
+
+*.iml
+
+#Folders
+
+/resources
+.idea/
+out/
+poi-4.0.1/
+target/

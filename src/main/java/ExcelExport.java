@@ -1,4 +1,7 @@
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,22 +21,18 @@ public class ExcelExport {
     private Sheet sheet;
     private Font headerFont;
     private CellStyle headerCellStyle;
-    private Row headerRow;
-    private FileOutputStream fileOut;
-    private static String[] columns = { "Имя", "Фамилия", "Отчество",
+    private static String[] columns = { "Имя", "Фамилия", "Отчество", "Пол",
             "Возраст", "Дата рождения", "ИНН", "Индекс", "Страна", "Регион", "Город", "Улица", "Дом", "Квартира" };
     ExcelExport(){}
 
     private void setNewWorkbook()
     {
-        Workbook workbook = new HSSFWorkbook();
-        this.workbook=workbook;
+        this.workbook=new HSSFWorkbook();
     }
 
     private void setNewSheet(String name)
     {
-        Sheet sheet = getWorkbook().createSheet(name);
-        this.sheet=sheet;
+        this.sheet=getWorkbook().createSheet(name);
     }
 
     public Workbook getWorkbook()
@@ -41,19 +40,24 @@ public class ExcelExport {
         return workbook;
     }
 
-    private void setFont()
+    public void setFont()
     {
         Font headerFont = getWorkbook().createFont();
         headerFont.setBold(true);
         headerFont.setFontHeightInPoints((short) 14);
         headerFont.setColor(IndexedColors.BLACK.getIndex());
+        this.headerFont = headerFont;
 
+
+    }
+
+    private void setHeaderCellStyle()
+    {
         CellStyle headerCellStyle = getWorkbook().createCellStyle();
         headerCellStyle.setFont(headerFont);
-        this.headerFont = headerFont;
         this.headerCellStyle = headerCellStyle;
     }
-    private void createRow()
+    public void createRow()
     {
         Row headerRow = sheet.createRow(0);
 
@@ -62,7 +66,6 @@ public class ExcelExport {
             cell.setCellValue(columns[i]);
             cell.setCellStyle(headerCellStyle);
         }
-        this.headerRow = headerRow;
     }
 
     private void createDataCells(ArrayList<Person> personArrayList)
@@ -76,8 +79,9 @@ public class ExcelExport {
             row.createCell(i).setCellValue(person.getName()); i++;
             row.createCell(i).setCellValue(person.getSecondName());i++;
             row.createCell(i).setCellValue(person.getThirdName());i++;
+            row.createCell(i).setCellValue(String.valueOf(person.getGender()));i++;
             row.createCell(i).setCellValue(person.getAge());i++;
-            row.createCell(i).setCellValue(person.getBirthDay().toString());i++;
+            row.createCell(i).setCellValue(person.getNiceLookingDate());i++;
             row.createCell(i).setCellValue(person.getINN());i++;
             row.createCell(i).setCellValue(person.getIndex());i++;
             row.createCell(i).setCellValue(person.getCountry());i++;
@@ -85,7 +89,7 @@ public class ExcelExport {
             row.createCell(i).setCellValue(person.getCity());i++;
             row.createCell(i).setCellValue(person.getStreet());i++;
             row.createCell(i).setCellValue(person.getHouse());i++;
-            row.createCell(i).setCellValue(person.getFlat());i++;
+            row.createCell(i).setCellValue(person.getFlat());
         }
     }
     private void resizeColumns()
@@ -97,9 +101,19 @@ public class ExcelExport {
     private void writeFileOut()
     {
         try {
-            FileOutputStream fileOut = new FileOutputStream("contacts.xls");
-            workbook.write(fileOut);
-            fileOut.close();
+
+            try {
+                File myFile = new File("Persons.xls");
+                FileOutputStream fileOut = new FileOutputStream(myFile);
+                workbook.write(fileOut);
+                fileOut.close();
+                System.out.println("Файл .XLS создан. Путь" + ' ' + myFile.getAbsolutePath());
+            }
+            catch (FileNotFoundException e)
+            {
+                System.out.println("Не могу создать файл .XLS, закройте уже созданный Persons.xls файл" );
+            }
+
         }
         catch (IOException e)
         {
@@ -109,8 +123,10 @@ public class ExcelExport {
     public void create(ArrayList<Person> personArrayList)
     {
             setNewWorkbook();
-            setNewSheet("Persons");
+            String newSheetName = ("Persons");
+            setNewSheet(newSheetName);
             setFont();
+            setHeaderCellStyle();
             createRow();
             createDataCells(personArrayList);
             resizeColumns();

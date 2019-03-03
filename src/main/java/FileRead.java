@@ -8,8 +8,7 @@ public class FileRead {
     private ArrayList<Person> personsArrayDeque;
     private int personNumber;
 
-    public FileRead() {
-    }
+    FileRead() {}
 
     public void take(int maxPersonNumber) {
         setRandomPersonNumber(maxPersonNumber);
@@ -23,13 +22,13 @@ public class FileRead {
         readPersonsLocation();
     }
 
-    public void excelExport()
+    void excelExport()
     {
         ExcelExport newExport = new ExcelExport();
         newExport.create(getPersonsArrayDeque());
     }
 
-    public void pdfExport()
+    void pdfExport()
     {
         PdfExport newExport = new PdfExport();
         newExport.create(getPersonsArrayDeque());
@@ -43,7 +42,7 @@ public class FileRead {
 
     private void readPersonsBirthDate() {
         try {
-            String filePath = "resources/birthdate.txt";
+            String filePath = "src/main/resources/birthdate.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -64,7 +63,7 @@ public class FileRead {
     private void readPersonsFirstName() {
 
         try {
-            String filePath = "resources/firstname.txt";
+            String filePath = "src/main/resources/firstname.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -83,7 +82,7 @@ public class FileRead {
 
     private void readPersonsSecondName() {
         try {
-            String filePath = "resources/secondname.txt";
+            String filePath = "src/main/resources/secondname.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -101,7 +100,7 @@ public class FileRead {
 
     private void readPersonsThirdName() {
         try {
-            String filePath = "resources/thirdname.txt";
+            String filePath = "src/main/resources/thirdname.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -128,7 +127,7 @@ public class FileRead {
 
     private void readPersonsCountry() {
         try {
-            String filePath = "resources/country.txt";
+            String filePath = "src/main/resources/country.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -146,7 +145,7 @@ public class FileRead {
 
     private void readPersonsRegion() {
         try {
-            String filePath = "resources/region.txt";
+            String filePath = "src/main/resources/region.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -164,7 +163,7 @@ public class FileRead {
 
     private void readPersonsCity() {
         try {
-            String filePath = "resources/city.txt";
+            String filePath = "src/main/resources/city.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -182,7 +181,7 @@ public class FileRead {
 
     private void readPersonsStreet() {
         try {
-            String filePath = "resources/street.txt";
+            String filePath = "src/main/resources/street.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -200,7 +199,7 @@ public class FileRead {
 
     private void readPersonsHouse() {
         try {
-        String filePath = "resources/house.txt";
+        String filePath = "src/main/resources/house.txt";
         Scanner fileScanner = getScanner(filePath);
         for (int i=0; i<personsArrayDeque.toArray().length; i++)
         {
@@ -218,7 +217,7 @@ public class FileRead {
 
     private void readPersonsFlatNumber() {
         try {
-            String filePath = "resources/flatnumber.txt";
+            String filePath = "src/main/resources/flatnumber.txt";
             Scanner fileScanner = getScanner(filePath);
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
@@ -235,7 +234,7 @@ public class FileRead {
     }
 
 
-    public void setPersonNumber(int personNumber) {
+    private void setPersonNumber(int personNumber) {
         this.personNumber = personNumber;
     }
 
@@ -247,22 +246,21 @@ public class FileRead {
 
     private Scanner getScanner(String fileName) throws FileNotFoundException {
         File newFile = getFile(fileName);
-        Scanner fileScanner = new Scanner(newFile);
-        return fileScanner;
+        return new Scanner(newFile);
     }
 
     private File getFile(String fileName) throws NoSuchElementException {
-        File file = null;
-        boolean flag = true;
+        File file;
+        boolean flag;
         do {
             flag = true;
             file = new File(fileName);
 
-            if (file.exists() == false) {
+            if (!file.exists()) {
                 flag = false;
                 System.out.println("Check file name, file doesn't exists");
             }
-        } while (flag == false);
+        } while (!flag);
         return (file);
     }
     private Date getDate(String str_date) throws java.text.ParseException{
@@ -284,11 +282,11 @@ public class FileRead {
         setPersonsArrayDeque(newPersonArrayDeque);
     }
 
-    public ArrayList<Person> getPersonsArrayDeque() {
+    private ArrayList<Person> getPersonsArrayDeque() {
         return personsArrayDeque;
     }
 
-    public void setPersonsArrayDeque(ArrayList<Person> personsArrayDeque) {
+    private void setPersonsArrayDeque(ArrayList<Person> personsArrayDeque) {
         this.personsArrayDeque = personsArrayDeque;
     }
 

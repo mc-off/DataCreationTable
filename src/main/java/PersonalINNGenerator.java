@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class PersonalINNGenerator {
-    private ArrayList INN;
+    private ArrayList<Integer> INN;
     private String stringINN;
     private int region;
     private int[] officeArray;
@@ -20,7 +20,7 @@ public class PersonalINNGenerator {
         setStringINN();
     }
 
-    public void setStringINN()
+    private void setStringINN()
     {
         this.stringINN = INN.toString();
         for (int i=0;i<stringINN.length();i++)
@@ -34,26 +34,20 @@ public class PersonalINNGenerator {
             }
         }
     }
-    public String getStringINN()
+    String getStringINN()
     {
         return stringINN;
     }
 
     private void setNewINN()
     {
-        ArrayList newArray = new ArrayList();
+        ArrayList<Integer> newArray = new ArrayList<Integer>();
         for (int i=0;i<12;i++)
         {
-            newArray.add(0);
+            newArray.add(null);
         }
         this.INN = newArray;
     }
-
-    public ArrayList getINN()
-    {
-    return INN;
-    }
-
 
     private void setOfficeArrayOfReg77()
     {
@@ -90,43 +84,44 @@ public class PersonalINNGenerator {
         setINNSecondValidNum();
     }
 
-    public void setINNRegion()
+    private void setINNRegion()
     {
         INN.set(0,region / 10);
         INN.set(1,region % 10);
     }
 
-    public void setINNOffice()
+    private void setINNOffice()
     {
         int genOffice = generateOffice();
         INN.set(2,genOffice / 10);
         INN.set(3,genOffice % 10);
     }
 
-    public void setINNMiddlePath()
+    private void setINNMiddlePath()
     {
         for (int i=4;i<10;i++)
         {
             INN.set(i,randomGen.generate(0,9));
         }
     }
-    public int getINNnum (int index)
+
+    private int getINNnum (int index)
     {
-        return (int)INN.get(index);
+        return INN.get(index);
     }
 
-    public int generateOffice()
+    private int generateOffice()
     {
         return officeArray[randomGen.generate(0,officeArray.length-1)];
     }
 
-    public void setINNFirstValidNum()
+    private void setINNFirstValidNum()
     {
         int firstValidNum = (((getINNnum(0))*7+(getINNnum(1))*2+(getINNnum(2))*4+(getINNnum(3))*10+(getINNnum(4))*3 +(getINNnum(5))*5+(getINNnum(6))*9+(getINNnum(7))*4+(getINNnum(8))*6+(getINNnum(9))*8)%11)%10;
         INN.set(10,firstValidNum);
 
     }
-    public void setINNSecondValidNum()
+    private void setINNSecondValidNum()
     {
         int secondValidNum = (((getINNnum(0))*3+(getINNnum(1))*7+(getINNnum(2))*2+(getINNnum(3))*4+(getINNnum(4))*10 +(getINNnum(5))*3+(getINNnum(6))*5+(getINNnum(7))*9+(getINNnum(8))*4+(getINNnum(9))*6 + +(getINNnum(10))*8)%11)%10;
 
