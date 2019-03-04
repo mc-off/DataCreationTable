@@ -20,7 +20,7 @@ public class PdfExport {
     private File pdfFile;
     PdfExport(){}
 
-    public void create(ArrayList<Person> personArrayList)
+    void create(ArrayList<Person> personArrayList)
     {
         createNewDocumnet();
         createTable(columns.length);
@@ -34,7 +34,7 @@ public class PdfExport {
         closeDocument();
 
     }
-    public void setFont()
+    private void setFont()
     {
         try {
             try {
@@ -58,7 +58,7 @@ public class PdfExport {
     private void closeDocument()
     {
         document.close();
-        System.out.println("Файл .PDF создан. Путь:" + " " + pdfFile.getAbsolutePath());
+        System.out.println("File .PDF created. Path:" + " " + pdfFile.getAbsolutePath());
     }
 
     private void addTableToDocument()
@@ -76,7 +76,7 @@ public class PdfExport {
     {
         this.pdfFile = newFile;
     }
-    public void createTable(int numColumns)
+    private void createTable(int numColumns)
     {
         try {
             PdfPTable table = new PdfPTable(numColumns);

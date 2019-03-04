@@ -35,12 +35,12 @@ public class ExcelExport {
         this.sheet=getWorkbook().createSheet(name);
     }
 
-    public Workbook getWorkbook()
+    private Workbook getWorkbook()
     {
         return workbook;
     }
 
-    public void setFont()
+    private void setFont()
     {
         Font headerFont = getWorkbook().createFont();
         headerFont.setBold(true);
@@ -57,7 +57,7 @@ public class ExcelExport {
         headerCellStyle.setFont(headerFont);
         this.headerCellStyle = headerCellStyle;
     }
-    public void createRow()
+    private void createRow()
     {
         Row headerRow = sheet.createRow(0);
 
@@ -107,11 +107,11 @@ public class ExcelExport {
                 FileOutputStream fileOut = new FileOutputStream(myFile);
                 workbook.write(fileOut);
                 fileOut.close();
-                System.out.println("Файл .XLS создан. Путь" + ' ' + myFile.getAbsolutePath());
+                System.out.println("File .XLS created. Path" + ' ' + myFile.getAbsolutePath());
             }
             catch (FileNotFoundException e)
             {
-                System.out.println("Не могу создать файл .XLS, закройте уже созданный Persons.xls файл" );
+                System.out.println("Couldn't create .XLS, close opened Persons.xls file" );
             }
 
         }
@@ -120,7 +120,7 @@ public class ExcelExport {
             e.printStackTrace();
         }
     }
-    public void create(ArrayList<Person> personArrayList)
+    void create(ArrayList<Person> personArrayList)
     {
             setNewWorkbook();
             String newSheetName = ("Persons");
