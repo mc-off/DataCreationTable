@@ -52,7 +52,8 @@ Actions:
 
 In command line:
 
-1.java -jar target/DataCreationTable-1.0-SNAPSHOT.jar
+1.java -Dfile.encoding=utf-8 -jar target/DataCreationTable-1.0-SNAPSHOT.jar
+
 
 # Results
 
