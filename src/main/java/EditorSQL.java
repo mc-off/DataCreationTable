@@ -200,6 +200,26 @@ class EditorSQL {
 
     }
 
+    boolean testIfEmpty()
+    {
+
+        try {
+            String query = "Select * from persons";
+            PreparedStatement ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            String string = "";
+            while (rs.next())
+                string = rs.getString("surname");
+            return (string.equals(""));
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Empty database, go to local files");
+            return true;
+        }
+
+    }
+
     private int selectID(String surname, String name, String middlename, String birthdate)
     {
         try {

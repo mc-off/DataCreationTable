@@ -7,20 +7,35 @@ public class Main {
         int maxPersonReadNumber = 11;
         ApiDataRead apiDataRead = new ApiDataRead();
         EditorSQL editorSQL = new EditorSQL();
-        if (apiDataRead.connect())
+        if (editorSQL.connect())
         {
-            if (editorSQL.connect())
+            if (apiDataRead.connect())
             {
+
                 test.goThroughApiWithSQL(maxPersonReadNumber);
             }
             else
             {
-                test.goThroughApi(maxPersonReadNumber);
+                if (editorSQL.testIfEmpty())
+                {
+                    test.goThroughLocalFiles(maxPersonReadNumber);
+                }
+                else
+                {
+                    test.goThrougLocalDBWithSQL();
+                }
             }
         }
         else
         {
-            test.goThroughLocalFiles(maxPersonReadNumber);
+            if (apiDataRead.connect())
+            {
+                test.goThroughApi(maxPersonReadNumber);
+            }
+            else
+            {
+                test.goThroughLocalFiles(maxPersonReadNumber);
+            }
         }
     }
 
@@ -28,6 +43,13 @@ public class Main {
     {
         EditorSQL newEditor = new EditorSQL();
         newEditor.fill(maxPersonReadNumber);
+        newEditor.export();
+        exit(0);
+    }
+
+    private void goThrougLocalDBWithSQL()
+    {
+        EditorSQL newEditor = new EditorSQL();
         newEditor.export();
         exit(0);
     }
