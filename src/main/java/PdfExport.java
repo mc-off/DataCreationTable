@@ -34,6 +34,21 @@ public class PdfExport {
         closeDocument();
 
     }
+    void createWithSQL(IteratorSQL iteratorSQL)
+    {
+        createNewDocumnet();
+        createTable(columns.length);
+        addTableHeader(table);
+        setFont();
+        for (int i=iteratorSQL.getMinID();i<iteratorSQL.getMaxID();i++)
+        {
+            addRowsWithSQL(iteratorSQL);
+            iteratorSQL.incCurrentID();
+        }
+        addTableToDocument();
+        closeDocument();
+
+    }
     private void setFont()
     {
         try {
@@ -134,6 +149,23 @@ public class PdfExport {
             table.addCell(String.valueOf(person.getHouse()));
             table.addCell(String.valueOf(person.getFlat()));
             table.setKeepTogether(true);
+    }
+    private void addRowsWithSQL(IteratorSQL iteratorSQL) {
+        table.addCell(new Phrase(iteratorSQL.getFirstName(),getFont()));
+        table.addCell(new Phrase(iteratorSQL.getSecondName(),getFont()));
+        table.addCell(new Phrase(iteratorSQL.getThirdName(),getFont()));
+        table.addCell(new Phrase(iteratorSQL.getGender(),getFont()));
+        table.addCell(String.valueOf(iteratorSQL.getFullAge()));
+        table.addCell(iteratorSQL.getNiceLookingDate());
+        table.addCell(iteratorSQL.getInn());
+        table.addCell((String.valueOf(iteratorSQL.getIndex())));
+        table.addCell(new Phrase(iteratorSQL.getCountry(),getFont()));
+        table.addCell(new Phrase(iteratorSQL.getRegion(),getFont()));
+        table.addCell(new Phrase(iteratorSQL.getCity(),getFont()));
+        table.addCell(new Phrase(iteratorSQL.getStreet(),getFont()));
+        table.addCell(String.valueOf(iteratorSQL.getHouse()));
+        table.addCell(String.valueOf(iteratorSQL.getFlat()));
+        table.setKeepTogether(true);
     }
 
 }

@@ -2,7 +2,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Person {
+class Person {
     private String name;
     private String secondName;
     private String thirdName;
@@ -23,13 +23,13 @@ public class Person {
         setAutoGenINN();
     }
 
-
     String getNiceLookingDate()
     {
         DateFormat formatter;
         formatter = new SimpleDateFormat("dd.mm.yyyy");
         return (formatter.format(getBirthDay()));
     }
+
     private void setAutoGenGender()
     {
         if (thirdName.charAt(thirdName.length()-1)=='а') {
@@ -55,7 +55,7 @@ public class Person {
         setIndex(randomIndex.generate(100000 ,200000));
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
@@ -67,7 +67,7 @@ public class Person {
         this.secondName = secondName;
     }
 
-    public char getGender() {
+    char getGender() {
         return gender;
     }
 
@@ -84,16 +84,16 @@ public class Person {
         return age;
     }
 
-    public int getIndex() {
+    private void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    int getIndex() {
         return index;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public String getRegion() {
-        return region;
+    private void setIndex(int index) {
+        this.index = index;
     }
 
     private void setAge(int age) {
@@ -154,12 +154,12 @@ public class Person {
         this.name = name;
     }
 
-    void setGender(char gender) {
-        this.gender = gender;
+    String getCountry() {
+        return country;
     }
 
-    void setIndex(int index) {
-        this.index = index;
+    String getRegion() {
+        return region;
     }
 
     void setCountry(String country) {

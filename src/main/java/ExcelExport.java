@@ -92,6 +92,7 @@ public class ExcelExport {
             row.createCell(i).setCellValue(person.getFlat());
         }
     }
+
     private void resizeColumns()
     {
         for (int i = 0; i < columns.length; i++) {
@@ -133,4 +134,41 @@ public class ExcelExport {
             writeFileOut();
     }
 
+    void createFromSQL(IteratorSQL iteratorSQL)
+    {
+        setNewWorkbook();
+        String newSheetName = ("Persons");
+        setNewSheet(newSheetName);
+        setFont();
+        setHeaderCellStyle();
+        createRow();
+        createDataCellsFromSQL(iteratorSQL);
+        resizeColumns();
+        writeFileOut();
+    }
+    private void createDataCellsFromSQL(IteratorSQL iteratorSQL)
+    {
+        int rowNum = 1;
+
+        for (int j=iteratorSQL.getMinID();j<iteratorSQL.getMaxID();j++) {
+            Row row = sheet.createRow(rowNum++);
+            int i=0;
+            row.createCell(i).setCellValue(iteratorSQL.getFirstName()); i++;
+            row.createCell(i).setCellValue(iteratorSQL.getSecondName());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getThirdName());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getGender());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getFullAge());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getNiceLookingDate());i++;
+            row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getInn()));i++;
+            row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getIndex()));i++;
+            row.createCell(i).setCellValue(iteratorSQL.getCountry());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getRegion());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getCity());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getStreet());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getHouse());i++;
+            row.createCell(i).setCellValue(iteratorSQL.getFlat());
+            iteratorSQL.incCurrentID();
+        }
+        iteratorSQL.setCurrentID(iteratorSQL.getMinID());
+    }
 }

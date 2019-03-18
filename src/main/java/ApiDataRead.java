@@ -12,12 +12,13 @@ class ApiDataRead {
     private JSONObject jsonObject;
     private ArrayList<Person> personArrayList;
     private int currentPerson;
-  ApiDataRead(){
+  ApiDataRead()
+  {
       this.personArrayList = new ArrayList<>();
+      this.numberGenerator = new RandomNumberGenerator();
   }
   void take(int maxPersonReadNumber)
   {
-     this.numberGenerator = new RandomNumberGenerator();
      try {
          int personNumber = numberGenerator.generate(1, maxPersonReadNumber);
          for (currentPerson = 0; currentPerson < personNumber; currentPerson++) {
@@ -33,6 +34,33 @@ class ApiDataRead {
      {
          System.out.println("Internet connection trouble, stop taking data from internet");
      }
+  }
+
+  boolean connect()
+  {
+      try {
+          Unirest.get("http://randomuser.ru/api.json").asJson();
+          return true;
+      }
+      catch (UnirestException e)
+      {
+          System.out.println("Internet connection trouble, couldn't connect to API server");
+          return false;
+      }
+  }
+  void setNewRandomJSON()
+  {
+      try {
+          JSONObject newJsonObject = Unirest.get("http://randomuser.ru/api.json").asJson().getBody().getArray()
+                  .getJSONObject(0)
+                  .getJSONObject("user");
+          setJsonObject(newJsonObject);
+      }
+      catch (UnirestException e)
+      {
+          System.out.println("Internet connection trouble");
+      }
+
   }
 
   private void addNewPersonToList()
@@ -59,70 +87,68 @@ class ApiDataRead {
     }
 
     private void setPersonsNames() {
-      JSONObject nameJsonObject = jsonObject.getJSONObject("name");
-      setPersonsFirstName(nameJsonObject);
-      setPersonsSecondName(nameJsonObject);
-      setPersonsThirdName(nameJsonObject);
+      setPersonsFirstName();
+      setPersonsSecondName();
+      setPersonsThirdName();
     }
 
     private void setPersonsBirthDate() {
         personArrayList.get(currentPerson).setBirthDay(getRandomBirthDate());
     }
 
-    private void setPersonsFirstName(JSONObject nameJson)
+    private void setPersonsFirstName()
     {
-      personArrayList.get(currentPerson).setName(nameJson.getString("first"));
+      personArrayList.get(currentPerson).setName(getFirstName());
     }
 
-    private void setPersonsSecondName(JSONObject nameJson)
+    private void setPersonsSecondName()
     {
-        personArrayList.get(currentPerson).setSecondName(nameJson.getString("last"));
+        personArrayList.get(currentPerson).setSecondName(getSecondName());
     }
 
-    private void setPersonsThirdName(JSONObject nameJson)
+    private void setPersonsThirdName()
     {
-        personArrayList.get(currentPerson).setThirdName(nameJson.getString("middle"));
+        personArrayList.get(currentPerson).setThirdName(getThirdName());
     }
 
     private void setPersonsLocation() {
-      JSONObject locationJson = jsonObject.getJSONObject("location");
         setDefaultPersonsCountry();
-        setPersonsRegion(locationJson);
-        setPersonsCity(locationJson);
-        setPersonsStreet(locationJson);
-        setPersonsHouse(locationJson);
-        setPersonsRandomFlatNumber(numberGenerator.generate(1,500));
+        setPersonsRegion();
+        setPersonsCity();
+        setPersonsStreet();
+        setPersonsHouse();
+        setPersonsRandomFlatNumber();
     }
 
     private void setDefaultPersonsCountry()
     {
-        personArrayList.get(currentPerson).setCountry("Россия");
+        personArrayList.get(currentPerson).setCountry(getDefaultCountry());
     }
 
-    private void setPersonsRegion(JSONObject locationJson)
+    private void setPersonsRegion()
     {
-        personArrayList.get(currentPerson).setRegion(locationJson.getString("state"));
+        personArrayList.get(currentPerson).setRegion(getRegion());
     }
-    private void setPersonsCity(JSONObject locationJson)
+    private void setPersonsCity()
     {
-        personArrayList.get(currentPerson).setCity(locationJson.getString("city"));
-    }
-
-    private void setPersonsStreet(JSONObject locationJson)
-    {
-        personArrayList.get(currentPerson).setStreet(locationJson.getString("street"));
+        personArrayList.get(currentPerson).setCity(getCity());
     }
 
-    private void setPersonsHouse(JSONObject locationJson)
+    private void setPersonsStreet()
     {
-        personArrayList.get(currentPerson).setHouse(locationJson.getInt("building"));
+        personArrayList.get(currentPerson).setStreet(getStreet());
     }
 
-    private void setPersonsRandomFlatNumber(int randomFlat)
+    private void setPersonsHouse()
     {
-        personArrayList.get(currentPerson).setFlat(randomFlat);
+        personArrayList.get(currentPerson).setHouse(getHouse());
     }
-    private Date getRandomBirthDate ()
+
+    private void setPersonsRandomFlatNumber()
+    {
+        personArrayList.get(currentPerson).setFlat(getFlat());
+    }
+    Date getRandomBirthDate ()
     {
         try {
             JSONObject persona = Unirest.get("https://randomuser.me/api/?nat=fr").asJson()
@@ -137,7 +163,7 @@ class ApiDataRead {
         }
     }
 
-    private Date getDate(String str_date){
+    Date getDate(String str_date){
         DateFormat formatter;
         Date date = new Date();
         try {
@@ -157,5 +183,59 @@ class ApiDataRead {
 
     private ArrayList<Person> getPersonArrayList() {
         return personArrayList;
+    }
+    private JSONObject getJSONObject(String jsonName)
+    {
+        return jsonObject.getJSONObject(jsonName);
+    }
+
+    String getFirstName()
+    {
+        return getJSONObject("name").getString("first");
+    }
+
+    String getSecondName()
+    {
+        return getJSONObject("name").getString("last");
+    }
+
+    String getThirdName()
+    {
+        return getJSONObject("name").getString("middle");
+    }
+
+    String getDefaultCountry()
+    {
+        return ("Россия");
+    }
+
+    String getRegion()
+    {
+        return getJSONObject("location").getString("state");
+    }
+
+    String getCity()
+    {
+        return getJSONObject("location").getString("city");
+    }
+
+    String getStreet()
+    {
+        return getJSONObject("location").getString("street");
+    }
+
+    Integer getHouse()
+    {
+        return getJSONObject("location").getInt("building");
+    }
+
+    Integer getIndex()
+    {
+        return getJSONObject("location").getInt("zip");
+    }
+
+    int getFlat()
+    {
+        return (numberGenerator.generate(1,500));
     }
 }

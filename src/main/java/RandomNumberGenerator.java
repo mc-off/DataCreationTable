@@ -1,8 +1,8 @@
 import java.util.Random;
 
-public class RandomNumberGenerator {
+class RandomNumberGenerator {
     RandomNumberGenerator(){}
-    public int generate(int minNumber, int maxNumber)
+    int generate(int minNumber, int maxNumber)
     {
         int difference = maxNumber - minNumber;
         Random random = new Random();

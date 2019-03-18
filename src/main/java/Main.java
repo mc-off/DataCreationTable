@@ -1,6 +1,3 @@
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
 import static java.lang.System.exit;
 
 public class Main {
@@ -8,15 +5,31 @@ public class Main {
     {
         Main test = new Main();
         int maxPersonReadNumber = 11;
-        try {
-            Unirest.get("http://randomuser.ru/api.json").asJson();
-        }
-        catch (UnirestException e)
+        ApiDataRead apiDataRead = new ApiDataRead();
+        EditorSQL editorSQL = new EditorSQL();
+        if (apiDataRead.connect())
         {
-            System.out.println("Internet connection trouble, go with default method");
+            if (editorSQL.connect())
+            {
+                test.goThroughApiWithSQL(maxPersonReadNumber);
+            }
+            else
+            {
+                test.goThroughApi(maxPersonReadNumber);
+            }
+        }
+        else
+        {
             test.goThroughLocalFiles(maxPersonReadNumber);
         }
-        test.goThroughApi(maxPersonReadNumber);
+    }
+
+    private void goThroughApiWithSQL(int maxPersonReadNumber)
+    {
+        EditorSQL newEditor = new EditorSQL();
+        newEditor.fill(maxPersonReadNumber);
+        newEditor.export();
+        exit(0);
     }
 
     private void goThroughApi(int maxPersonReadNumber)

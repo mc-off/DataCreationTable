@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class PersonalINNGenerator {
+class PersonalINNGenerator {
     private ArrayList<Integer> INN;
     private String stringINN;
     private int region;
@@ -41,7 +41,7 @@ public class PersonalINNGenerator {
 
     private void setNewINN()
     {
-        ArrayList<Integer> newArray = new ArrayList<Integer>();
+        ArrayList<Integer> newArray = new ArrayList<>();
         for (int i=0;i<12;i++)
         {
             newArray.add(null);
@@ -75,7 +75,7 @@ public class PersonalINNGenerator {
     }
 
 
-    public void generate()
+    void generate()
     {
         setINNRegion();
         setINNOffice();
