@@ -40,7 +40,7 @@ public class PdfExport {
         createTable(columns.length);
         addTableHeader(table);
         setFont();
-        for (int i=iteratorSQL.getMinID();i<iteratorSQL.getMaxID();i++)
+        for (int i=iteratorSQL.getMinID();i<=iteratorSQL.getMaxID();i++)
         {
             addRowsWithSQL(iteratorSQL);
             iteratorSQL.incCurrentID();

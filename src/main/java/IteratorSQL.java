@@ -22,7 +22,6 @@ public class IteratorSQL {
             this.minID = getPrivateMinID();
             this.maxID=getPrivateMaxID();
             this.currentID = minID;
-            getValidID(42);
         }
         catch (SQLException e)
         {
@@ -336,9 +335,8 @@ public class IteratorSQL {
 
     void incCurrentID()
     {
-        this.currentID = ++currentID;
-        while ((!getValidID(currentID))&&(currentID<maxID))
-            this.currentID = ++currentID;
+        this.currentID = currentID+1;
+
     }
     int getFullAge()
     {
@@ -353,23 +351,5 @@ public class IteratorSQL {
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         return (formatter.format(getBirthDate()));
-    }
-    private boolean getValidID(int ID)
-    {
-        try {
-            String responce = "Select address_id from persons where address_id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
-            ps.setInt (1, ID);
-            rs = ps.executeQuery();
-            int num=0;
-            while (rs.next())
-                num=rs.getInt(1);
-            return (num==0);
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
     }
 }
