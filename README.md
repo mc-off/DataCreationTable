@@ -2,7 +2,7 @@
 Program for creating organised table from user's data. 
 
 # Features
-Program uses data from [RandomUser](https://randomuser.me/) and [RandomUserRU](http://randomuser.ru/) APIs or from /resources files for generating users if there is connection problem and unite them to one .XML and .PDF file.
+Program uses data from [RandomUser](https://randomuser.me/) and [RandomUserRU](http://randomuser.ru/) APIs or from /resources files for generating users if there is connection problem and unite them to one .XML and .PDF file. Also support MySQL databases, that contains users' data.
 
 # Building
 
@@ -20,6 +20,14 @@ These libraries are automatically downloaded because of used Maven with written 
 
 In **Main.java** class there is one start parameter - max users number, that can be generate.
 
+In **EditorSQL.java** class there are three parameters for connecting to your SQL database server:
+
+1. url, where **fintech** - name of your database.
+
+2. user -  where **root** - your server username,
+
+3. password - where **root** your password.
+
 Recommend to change it if there is a stable internet connection, because program's default value contains max number of users in */resources* files.
 
 Changing output file names:
@@ -33,7 +41,17 @@ Cyrillic symbols export to .PDF only work with font from */resources* folder
 
 Program works with **Java Language ver. 1.8** and **JDK-11.0.2**
 
-Actions:
+<h2> Preactions </h2>
+
+1. Create database
+
+2. Create tables: address ( id int auto_increment not null, postcode varchar(256), country varchar(256), region varchar(256), city varchar(256), street varchar(256), house int, flat int, primary key (id) );
+
+persons ( id int auto_increment not null, surname varchar(256), name varchar(256), middlename varchar(256), birthday date, gender varchar(1), inn varchar(12), address_id int not null, foreign key (address_id) references address(id), primary key (id) );
+
+3. In code change url, user and passqord to your parameters (see #Building)
+
+<h2>Actions </h2>
 
 1. Download project
 
@@ -58,6 +76,7 @@ In command line:
 # Results
 
 With enabled internet connection:
+Filling database and getting data from it:
 Log messages:
 1. *File .XLS created. Path: (location of generated .XLS file)*
 2. *File .PDF created. Path: (location of generated .PDF file)*
@@ -65,6 +84,7 @@ Log messages:
 Created .PDF and .XLS file with table with generated persons.
 
 With disabled internet connection:
+If database connection is true and database is not empty, program generates files with data from database, else program generates files from local resourses
 Log messages:
 1. Internet connection trouble, go with default method
 2. *File .XLS created. Path: (location of generated .XLS file)*
