@@ -21,6 +21,8 @@ public class ExcelExport {
     private Sheet sheet;
     private Font headerFont;
     private CellStyle headerCellStyle;
+    private static File outFile = new File("Persons.xls");
+    private  FileOutputStream fileOut;
     private static String[] columns = { "Имя", "Фамилия", "Отчество", "Пол",
             "Возраст", "Дата рождения", "ИНН", "Индекс", "Страна", "Регион", "Город", "Улица", "Дом", "Квартира" };
     ExcelExport(){}
@@ -99,26 +101,26 @@ public class ExcelExport {
             sheet.autoSizeColumn(i);
         }
     }
+
     private void writeFileOut()
     {
         try {
-
-            try {
-                File myFile = new File("Persons.xls");
-                FileOutputStream fileOut = new FileOutputStream(myFile);
-                workbook.write(fileOut);
-                fileOut.close();
-                System.out.println("File .XLS created. Path" + ' ' + myFile.getAbsolutePath());
-            }
-            catch (FileNotFoundException e)
-            {
-                System.out.println("Couldn't create .XLS, close opened Persons.xls file" );
-            }
-
+             fileOut = new FileOutputStream(outFile);
+             workbook.write(fileOut);
         }
         catch (IOException e)
         {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                fileOut.close();
+                System.out.println("File .XLS created. Path" + ' ' + outFile.getAbsolutePath());
+            }
+            catch (IOException e)
+            {
+                System.out.println("Couldn't create .XLS, close opened Persons.xls file" );
+            }
         }
     }
     void create(ArrayList<Person> personArrayList)

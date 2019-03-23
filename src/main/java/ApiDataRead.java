@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 class ApiDataRead {
+
     private RandomNumberGenerator numberGenerator;
     private JSONObject jsonObject;
     private ArrayList<Person> personArrayList;
-    private int currentPerson;
   ApiDataRead()
   {
       this.personArrayList = new ArrayList<>();
@@ -21,13 +21,13 @@ class ApiDataRead {
   {
      try {
          int personNumber = numberGenerator.generate(1, maxPersonReadNumber);
-         for (currentPerson = 0; currentPerson < personNumber; currentPerson++) {
+         for (int currentPerson = 0; currentPerson < personNumber; currentPerson++) {
              JSONObject newJsonObject = Unirest.get("http://randomuser.ru/api.json").asJson().getBody().getArray()
                      .getJSONObject(0)
                      .getJSONObject("user");
              addNewPersonToList();
              setJsonObject(newJsonObject);
-             readPersonsData();
+             readPersonsData(currentPerson);
          }
      }
      catch (UnirestException e)
@@ -68,10 +68,10 @@ class ApiDataRead {
       Person newPerson = new Person();
       this.personArrayList.add(newPerson);
   }
-    private void readPersonsData() {
-        setPersonsNames();
-        setPersonsBirthDate();
-        setPersonsLocation();
+    private void readPersonsData(int currentPerson) {
+        setPersonsNames(currentPerson);
+        setPersonsBirthDate(currentPerson);
+        setPersonsLocation(currentPerson);
     }
 
     void excelExport()
@@ -86,65 +86,65 @@ class ApiDataRead {
         newExport.create(getPersonArrayList());
     }
 
-    private void setPersonsNames() {
-      setPersonsFirstName();
-      setPersonsSecondName();
-      setPersonsThirdName();
+    private void setPersonsNames(int currentPerson) {
+      setPersonsFirstName(currentPerson);
+      setPersonsSecondName(currentPerson);
+      setPersonsThirdName(currentPerson);
     }
 
-    private void setPersonsBirthDate() {
+    private void setPersonsBirthDate(int currentPerson) {
         personArrayList.get(currentPerson).setBirthDay(getRandomBirthDate());
     }
 
-    private void setPersonsFirstName()
+    private void setPersonsFirstName(int currentPerson)
     {
       personArrayList.get(currentPerson).setName(getFirstName());
     }
 
-    private void setPersonsSecondName()
+    private void setPersonsSecondName(int currentPerson)
     {
         personArrayList.get(currentPerson).setSecondName(getSecondName());
     }
 
-    private void setPersonsThirdName()
+    private void setPersonsThirdName(int currentPerson)
     {
         personArrayList.get(currentPerson).setThirdName(getThirdName());
     }
 
-    private void setPersonsLocation() {
-        setDefaultPersonsCountry();
-        setPersonsRegion();
-        setPersonsCity();
-        setPersonsStreet();
-        setPersonsHouse();
-        setPersonsRandomFlatNumber();
+    private void setPersonsLocation(int currentPerson) {
+        setDefaultPersonsCountry(currentPerson);
+        setPersonsRegion(currentPerson);
+        setPersonsCity(currentPerson);
+        setPersonsStreet(currentPerson);
+        setPersonsHouse(currentPerson);
+        setPersonsRandomFlatNumber(currentPerson);
     }
 
-    private void setDefaultPersonsCountry()
+    private void setDefaultPersonsCountry(int currentPerson)
     {
         personArrayList.get(currentPerson).setCountry(getDefaultCountry());
     }
 
-    private void setPersonsRegion()
+    private void setPersonsRegion(int currentPerson)
     {
         personArrayList.get(currentPerson).setRegion(getRegion());
     }
-    private void setPersonsCity()
+    private void setPersonsCity(int currentPerson)
     {
         personArrayList.get(currentPerson).setCity(getCity());
     }
 
-    private void setPersonsStreet()
+    private void setPersonsStreet(int currentPerson)
     {
         personArrayList.get(currentPerson).setStreet(getStreet());
     }
 
-    private void setPersonsHouse()
+    private void setPersonsHouse(int currentPerson)
     {
         personArrayList.get(currentPerson).setHouse(getHouse());
     }
 
-    private void setPersonsRandomFlatNumber()
+    private void setPersonsRandomFlatNumber(int currentPerson)
     {
         personArrayList.get(currentPerson).setFlat(getFlat());
     }
