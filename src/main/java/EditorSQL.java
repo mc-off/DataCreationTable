@@ -17,14 +17,7 @@ class EditorSQL {
     private Statement stmt;
     private ResultSet rs;
 
-    // Default requests
-    private String requestUpdateAddress = "UPDATE address set postcode= ? and country= ? and region= ? and city= ? and street= ? and house= ? and flat= ?" +
-            " where id= ?";
-    private String requestInsertAddress = "Insert INTO address (postcode, country, region, city, street, house, flat) VALUES(?,?,?,?,?,?,?)";
-    private String requestInsertPerson = "Insert INTO persons (name, surname, middlename, birthday, gender, inn,  address_id) VALUES(?,?,?,?,?,?,?)";
 
-
-    private IteratorSQL iteratorSQL;
     private ApiDataRead apiDataRead;
 
     EditorSQL()
@@ -40,10 +33,12 @@ class EditorSQL {
             // getting Statement object to execute query
             stmt = con.createStatement();
 
-            for (int i=0;i<maxPersonNumber;i++) {
-                // executing SELECT query
-                apiDataRead.setNewRandomJSON();
-                insertPerson();
+            for (int i = 0; i < maxPersonNumber; i++)
+            {
+                if (apiDataRead.setNewRandomUser())
+                    insertPerson();
+                else
+                    break;
             }
 
         }
@@ -69,7 +64,7 @@ class EditorSQL {
     }
 
     void export() {
-        iteratorSQL = new IteratorSQL(url, user, password);
+        IteratorSQL iteratorSQL = new IteratorSQL(url, user, password);
         ExcelExport excelExport = new ExcelExport();
         excelExport.createFromSQL(iteratorSQL);
         PdfExport pdfExport = new PdfExport();
@@ -103,6 +98,9 @@ class EditorSQL {
         try {
             int findingID = selectID(apiDataRead.getSecondName(),apiDataRead.getFirstName(),apiDataRead.getThirdName(),getRightFormatDate(apiDataRead.getRandomBirthDate()));
             if (findingID!=0) {
+                // Default requests
+                String requestUpdateAddress = "UPDATE address set postcode= ? and country= ? and region= ? and city= ? and street= ? and house= ? and flat= ?" +
+                        " where id= ?";
                 PreparedStatement ps = con.prepareStatement(requestUpdateAddress);
                 ps.setString(1, String.valueOf(apiDataRead.getIndex()));
                 ps.setString(2, apiDataRead.getDefaultCountry());
@@ -128,6 +126,7 @@ class EditorSQL {
         try {
             if (!tryToUpdate()) {
                 if (insertAddress()) {
+                    String requestInsertPerson = "Insert INTO persons (name, surname, middlename, birthday, gender, inn,  address_id) VALUES(?,?,?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(requestInsertPerson);
                     ps.setString(1, apiDataRead.getFirstName());
                     ps.setString(2, apiDataRead.getSecondName());
@@ -163,6 +162,7 @@ class EditorSQL {
     private boolean insertAddress()
     {
         try {
+            String requestInsertAddress = "Insert INTO address (postcode, country, region, city, street, house, flat) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(requestInsertAddress);
             ps.setString(1, String.valueOf(apiDataRead.getIndex()));
             ps.setString(2, apiDataRead.getDefaultCountry());
@@ -269,5 +269,3 @@ class EditorSQL {
         else return ('?');
     }
 }
-
-

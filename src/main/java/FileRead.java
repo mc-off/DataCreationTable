@@ -3,16 +3,25 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
-public class FileRead {
+class FileRead {
     private ArrayList<Person> personsArrayDeque;
-    private int personNumber;
+    private static final String firstNamePath="src/main/resources/firstName.txt";
+    private static final String secondNamePath="src/main/resources/secondName.txt";
+    private static final String thirdNamePath="src/main/resources/thirdName.txt";
+    private static final String datePath="src/main/resources/birthDate.txt";
+    private static final String countryPath="src/main/resources/country.txt";
+    private static final String regionPath="src/main/resources/region.txt";
+    private static final String cityPath="src/main/resources/city.txt";
+    private static final String streetPath="src/main/resources/street.txt";
+    private static final String housePath="src/main/resources/house.txt";
+    private static final String flatPath="src/main/resources/flatNumber.txt";
+    private static int generatePersonNumber;
 
     FileRead() {}
 
-    public void take(int maxPersonNumber) {
+    void take(int maxPersonNumber) {
         setRandomPersonNumber(maxPersonNumber);
-        getNewPersonsList(personNumber);
+        getNewPersonsList(generatePersonNumber);
         readPersonsData();
     }
 
@@ -35,207 +44,95 @@ public class FileRead {
     }
 
     private void readPersonsNames() {
-        readPersonsFirstName();
-        readPersonsSecondName();
-        readPersonsThirdName();
+        readAndSetData(firstNamePath);
+        readAndSetData(secondNamePath);
+        readAndSetData(thirdNamePath);
     }
-
     private void readPersonsBirthDate() {
-        try {
-            String filePath = "src/main/resources/birthdate.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                Date readDate = getDate(readString);
-                personsArrayDeque.get(i).setBirthDay(readDate);
-            }
-                }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void readPersonsFirstName() {
-
-        try {
-            String filePath = "src/main/resources/firstname.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                personsArrayDeque.get(i).setName(readString);
-            }
-        }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void readPersonsSecondName() {
-        try {
-            String filePath = "src/main/resources/secondname.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                personsArrayDeque.get(i).setSecondName(readString);
-            }
-        }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void readPersonsThirdName() {
-        try {
-            String filePath = "src/main/resources/thirdname.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                personsArrayDeque.get(i).setThirdName(readString);
-            }
-        }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        readAndSetData(datePath);
     }
 
     private void readPersonsLocation() {
-        readPersonsCountry();
-        readPersonsRegion();
-        readPersonsCity();
-        readPersonsStreet();
-        readPersonsHouse();
-        readPersonsFlatNumber();
+        readAndSetData(countryPath);
+        readAndSetData(regionPath);
+        readAndSetData(cityPath);
+        readAndSetData(streetPath);
+        readAndSetData(housePath);
+        readAndSetData(flatPath);
     }
 
-    private void readPersonsCountry() {
-        try {
-            String filePath = "src/main/resources/country.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                personsArrayDeque.get(i).setCountry(readString);
-            }
-        }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void readPersonsRegion() {
-        try {
-            String filePath = "src/main/resources/region.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                personsArrayDeque.get(i).setRegion(readString);
-            }
-        }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void readPersonsCity() {
-        try {
-            String filePath = "src/main/resources/city.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                personsArrayDeque.get(i).setCity(readString);
-            }
-        }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void readPersonsStreet() {
-        try {
-            String filePath = "src/main/resources/street.txt";
-            Scanner fileScanner = getScanner(filePath);
-            for (int i=0; i<personsArrayDeque.toArray().length; i++)
-            {
-                String readString = fileScanner.nextLine();
-                personsArrayDeque.get(i).setStreet(readString);
-            }
-        }
-
-
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void readPersonsHouse() {
-        try {
-        String filePath = "src/main/resources/house.txt";
-        Scanner fileScanner = getScanner(filePath);
-        for (int i=0; i<personsArrayDeque.toArray().length; i++)
-        {
-            int readNumber = fileScanner.nextInt();
-            personsArrayDeque.get(i).setHouse(readNumber);
-        }
-    }
-
-
-        catch (Exception e)
+    private void readAndSetData(String filePath)
     {
-        e.printStackTrace();
-    }
-}
-
-    private void readPersonsFlatNumber() {
         try {
-            String filePath = "src/main/resources/flatnumber.txt";
             Scanner fileScanner = getScanner(filePath);
+            String[] stringArray = new String[generatePersonNumber];
             for (int i=0; i<personsArrayDeque.toArray().length; i++)
             {
-                int readNumber = fileScanner.nextInt();
-                personsArrayDeque.get(i).setFlat(readNumber);
+                stringArray[i] = fileScanner.nextLine();
             }
+            switch (filePath) {
+                case (firstNamePath): {
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setName(stringArray[i]);
+                    }
+                    break;
+                case (secondNamePath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setSecondName(stringArray[i]);
+                    }
+                    break;
+                case (thirdNamePath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setThirdName(stringArray[i]);
+                     }
+                     break;
+                case (datePath): {
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setBirthDay(getDate(stringArray[i]));
+                     } break;
+                case (countryPath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setCountry(stringArray[i]);
+                    }
+                    break;
+                case (regionPath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setRegion(stringArray[i]);
+                    }
+                    break;
+                case (streetPath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setStreet(stringArray[i]);
+                }
+                break;
+                case (cityPath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setCity(stringArray[i]);
+                     }
+                     break;
+                case (housePath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setHouse(Integer.parseInt(stringArray[i]));
+                     }
+                     break;
+                case (flatPath):{
+                    for (int i=0; i<personsArrayDeque.toArray().length; i++)
+                        personsArrayDeque.get(i).setFlat(Integer.parseInt(stringArray[i]));
+                     }
+                     break;
+                default: System.out.println("Couldn't compare string " + filePath);
+                      break;
+            }
+
         }
-
-
         catch (Exception e)
         {
             e.printStackTrace();
         }
     }
-
 
     private void setPersonNumber(int personNumber) {
-        this.personNumber = personNumber;
+        FileRead.generatePersonNumber = personNumber;
     }
 
 

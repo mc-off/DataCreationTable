@@ -3,7 +3,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class IteratorSQL {
+class IteratorSQL {
     private Connection con;
     private Statement stmt;
     private ResultSet rs;

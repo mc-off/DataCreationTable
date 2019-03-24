@@ -1,6 +1,6 @@
 import static java.lang.System.exit;
 
-public class Main {
+class Main {
     public static void main(String[] args)
     {
         Main test = new Main();

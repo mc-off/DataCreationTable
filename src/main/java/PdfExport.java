@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public class PdfExport {
+class PdfExport {
     private Document document;
     private PdfPTable table;
     private Font font;
