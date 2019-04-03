@@ -13,9 +13,9 @@ class EditorSQL {
     private static final String password = "root";
 
     // JDBC variables for opening and managing connection
-    private Connection con;
-    private Statement stmt;
-    private ResultSet rs;
+    private Connection connection;
+    private Statement statement;
+    private ResultSet resultSet;
 
 
     private ApiDataRead apiDataRead;
@@ -27,11 +27,11 @@ class EditorSQL {
 
     void fill(int maxPersonNumber) {
         try {
-            con = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);
             // disable autocommit
-            con.setAutoCommit(false);
+            connection.setAutoCommit(false);
             // getting Statement object to execute query
-            stmt = con.createStatement();
+            statement = connection.createStatement();
 
             for (int i = 0; i < maxPersonNumber; i++)
             {
@@ -47,19 +47,19 @@ class EditorSQL {
             e.printStackTrace();
         }
         finally {
-            //commit, close connection ,stmt and result set here
+            //commit, close connection ,statement and result set here
            try {
-               con.commit();
-            } catch (SQLException se) { /*can't do anything }*/}
+               connection.commit();
+            } catch (SQLException se) { se.printStackTrace();}
             try {
-                con.close();
-            } catch (SQLException se) { /*can't do anything */ }
+                connection.close();
+            } catch (SQLException se) { se.printStackTrace(); }
             try {
-                stmt.close();
-            } catch (SQLException se) { /*can't do anything */ }
+                statement.close();
+            } catch (SQLException se) { se.printStackTrace(); }
             try {
-                rs.close();
-            } catch (SQLException se) { /*can't do anything */ }
+                resultSet.close();
+            } catch (SQLException se) { se.printStackTrace(); }
         }
     }
 
@@ -77,7 +77,7 @@ class EditorSQL {
         try {
             try {
                 // opening database connection to MySQL server
-                con = DriverManager.getConnection(url, user, password);
+                connection = DriverManager.getConnection(url, user, password);
                 return true;
             }
             catch (CommunicationsException e)
@@ -101,7 +101,7 @@ class EditorSQL {
                 // Default requests
                 String requestUpdateAddress = "UPDATE address set postcode= ? and country= ? and region= ? and city= ? and street= ? and house= ? and flat= ?" +
                         " where id= ?";
-                PreparedStatement ps = con.prepareStatement(requestUpdateAddress);
+                PreparedStatement ps = connection.prepareStatement(requestUpdateAddress);
                 ps.setString(1, String.valueOf(apiDataRead.getIndex()));
                 ps.setString(2, apiDataRead.getDefaultCountry());
                 ps.setString(3, apiDataRead.getRegion());
@@ -127,7 +127,7 @@ class EditorSQL {
             if (!tryToUpdate()) {
                 if (insertAddress()) {
                     String requestInsertPerson = "Insert INTO persons (name, surname, middlename, birthday, gender, inn,  address_id) VALUES(?,?,?,?,?,?,?)";
-                    PreparedStatement ps = con.prepareStatement(requestInsertPerson);
+                    PreparedStatement ps = connection.prepareStatement(requestInsertPerson);
                     ps.setString(1, apiDataRead.getFirstName());
                     ps.setString(2, apiDataRead.getSecondName());
                     ps.setString(3, apiDataRead.getThirdName());
@@ -151,7 +151,7 @@ class EditorSQL {
     {
         try
         {
-            con.rollback();
+            connection.rollback();
         }
         catch (SQLException e)
         {
@@ -163,7 +163,7 @@ class EditorSQL {
     {
         try {
             String requestInsertAddress = "Insert INTO address (postcode, country, region, city, street, house, flat) VALUES(?,?,?,?,?,?,?)";
-            PreparedStatement ps = con.prepareStatement(requestInsertAddress);
+            PreparedStatement ps = connection.prepareStatement(requestInsertAddress);
             ps.setString(1, String.valueOf(apiDataRead.getIndex()));
             ps.setString(2, apiDataRead.getDefaultCountry());
             ps.setString(3, apiDataRead.getRegion());
@@ -187,10 +187,10 @@ class EditorSQL {
         int selectedID = 0;
         try {
             String query = "Select MAX(id) from address";
-            PreparedStatement ps = con.prepareStatement(query);
-            rs = ps.executeQuery();
-            while (rs.next())
-                selectedID = rs.getInt(1);
+            PreparedStatement ps = connection.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+                selectedID = resultSet.getInt(1);
         }
         catch (Exception e)
         {
@@ -205,11 +205,11 @@ class EditorSQL {
 
         try {
             String query = "Select * from persons";
-            PreparedStatement ps = con.prepareStatement(query);
-            rs = ps.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(query);
+            resultSet = ps.executeQuery();
             String string = "";
-            while (rs.next())
-                string = rs.getString("surname");
+            while (resultSet.next())
+                string = resultSet.getString("surname");
             return (string.equals(""));
         }
         catch (SQLException e)
@@ -224,15 +224,15 @@ class EditorSQL {
     {
         try {
             String responce = "Select persons.address_id from persons where (name=? and surname=? and middlename=? and birthday =?)";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setString   (1, name);
             ps.setString(2, surname);
             ps.setString(3, middlename);
             ps.setString(4, birthdate);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             int selectedID = 0;
-            while (rs.next())
-                selectedID = rs.getInt(1);
+            while (resultSet.next())
+                selectedID = resultSet.getInt(1);
             return selectedID;
         }
         catch (SQLException e)

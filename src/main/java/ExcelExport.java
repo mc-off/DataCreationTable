@@ -3,6 +3,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -79,7 +80,7 @@ class ExcelExport {
             int i=0;
             row.createCell(i).setCellValue(person.getName()); i++;
             row.createCell(i).setCellValue(person.getSecondName());i++;
-            row.createCell(i).setCellValue(person.getThirdName());i++;
+            row.createCell(i).setCellValue(person.getMiddleName());i++;
             row.createCell(i).setCellValue(String.valueOf(person.getGender()));i++;
             row.createCell(i).setCellValue(person.getAge());i++;
             row.createCell(i).setCellValue(person.getNiceLookingDate());i++;
@@ -154,20 +155,26 @@ class ExcelExport {
         for (int j=iteratorSQL.getMinID();j<iteratorSQL.getMaxID();j++) {
             Row row = sheet.createRow(rowNum++);
             int i=0;
-            row.createCell(i).setCellValue(iteratorSQL.getFirstName()); i++;
-            row.createCell(i).setCellValue(iteratorSQL.getSecondName());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getThirdName());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getGender());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getFullAge());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getNiceLookingDate());i++;
-            row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getInn()));i++;
-            row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getIndex()));i++;
-            row.createCell(i).setCellValue(iteratorSQL.getCountry());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getRegion());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getCity());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getStreet());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getHouse());i++;
-            row.createCell(i).setCellValue(iteratorSQL.getFlat());
+            try {
+                row.createCell(i).setCellValue(iteratorSQL.getFirstName()); i++;
+                row.createCell(i).setCellValue(iteratorSQL.getSecondName());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getMiddleName());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getGender());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getFullAge());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getNiceLookingDate());i++;
+                row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getInn()));i++;
+                row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getIndex()));i++;
+                row.createCell(i).setCellValue(iteratorSQL.getCountry());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getRegion());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getCity());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getStreet());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getHouse());i++;
+                row.createCell(i).setCellValue(iteratorSQL.getFlat());
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
             iteratorSQL.incCurrentID();
         }
         iteratorSQL.setCurrentID(iteratorSQL.getMinID());

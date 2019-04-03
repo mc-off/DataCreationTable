@@ -18,7 +18,8 @@ class ApiDataRead {
 
     private RandomNumberGenerator numberGenerator;
 
-    private static String baseUrl = "http://randomuser.ru/api.json";
+    private static final String RANDOMUSER_RU_API_JSON = "http://randomuser.ru/api.json";
+    private static final String RANDOMUSER_ME_API = "https://randomuser.me/api/?nat=fr";
     @Getter
     @Setter
     private ArrayList<Person> personArrayList;
@@ -48,7 +49,7 @@ class ApiDataRead {
   boolean setNewRandomUser()
   {
       try {
-          JSONArray newJsonObject = Unirest.get(baseUrl).asJson().getBody().getArray();
+          JSONArray newJsonObject = Unirest.get(RANDOMUSER_RU_API_JSON).asJson().getBody().getArray();
           ObjectMapper mapper = new ObjectMapper();
           List<User> list = mapper.readValue(newJsonObject.toString(), new TypeReference<ArrayList<User>>() {});
           User user = new User();
@@ -66,7 +67,7 @@ class ApiDataRead {
   boolean connect()
   {
       try {
-          Unirest.get(baseUrl).asJson();
+          Unirest.get(RANDOMUSER_RU_API_JSON).asJson();
           return true;
       }
       catch (UnirestException e)
@@ -124,7 +125,7 @@ class ApiDataRead {
 
     private void setPersonsThirdName(int currentPerson)
     {
-        personArrayList.get(currentPerson).setThirdName(getThirdName());
+        personArrayList.get(currentPerson).setMiddleName(getThirdName());
     }
 
     private void setPersonsLocation(int currentPerson) {
@@ -166,9 +167,8 @@ class ApiDataRead {
     }
 
     Date getRandomBirthDate() {
-        String baseUrlForBirthDate = "https://randomuser.me/api/?nat=fr";
         Response response = RestAssured.given()
-                .baseUri(baseUrlForBirthDate)
+                .baseUri(RANDOMUSER_ME_API)
                 .get();
         BirthDate birthDate = response.as(BirthDate.class);
         return getDate(birthDate.getResults().get(0).getDob().getDate());

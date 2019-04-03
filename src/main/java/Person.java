@@ -5,7 +5,7 @@ import java.util.Date;
 class Person {
     private String name;
     private String secondName;
-    private String thirdName;
+    private String middleName;
     private char gender;
     private int age;
     private Date birthDate;
@@ -32,11 +32,11 @@ class Person {
 
     private void setAutoGenGender()
     {
-        if (thirdName.charAt(thirdName.length()-1)=='а') {
+        if (middleName.charAt(middleName.length()-1)=='а') {
             setGender('Ж');
         }
         else
-            if (thirdName.charAt(thirdName.length()-1)=='ч') {
+            if (middleName.charAt(middleName.length()-1)=='ч') {
                 setGender('М');
             }
             else setGender('?');
@@ -71,12 +71,12 @@ class Person {
         return gender;
     }
 
-    String getThirdName() {
-        return thirdName;
+    String getMiddleName() {
+        return middleName;
     }
 
-    void setThirdName(String thirdName) {
-        this.thirdName = thirdName;
+    void setMiddleName(String middleName) {
+        this.middleName = middleName;
         setAutoGenGender();
     }
 

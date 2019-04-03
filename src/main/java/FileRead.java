@@ -5,17 +5,17 @@ import java.util.*;
 
 class FileRead {
     private ArrayList<Person> personsArrayDeque;
-    private static final String firstNamePath="src/main/resources/firstName.txt";
-    private static final String secondNamePath="src/main/resources/secondName.txt";
-    private static final String thirdNamePath="src/main/resources/thirdName.txt";
-    private static final String datePath="src/main/resources/birthDate.txt";
-    private static final String countryPath="src/main/resources/country.txt";
-    private static final String regionPath="src/main/resources/region.txt";
-    private static final String cityPath="src/main/resources/city.txt";
-    private static final String streetPath="src/main/resources/street.txt";
-    private static final String housePath="src/main/resources/house.txt";
-    private static final String flatPath="src/main/resources/flatNumber.txt";
-    private static int generatePersonNumber;
+    private static final String FIRST_NAME_PATH ="src/main/resources/firstName.txt";
+    private static final String SECOND_NAME_PATH ="src/main/resources/secondName.txt";
+    private static final String THIRD_NAME_PATH ="src/main/resources/middleName.txt";
+    private static final String DATE_PATH ="src/main/resources/birthDate.txt";
+    private static final String COUNTRY_PATH ="src/main/resources/country.txt";
+    private static final String REGION_PATH ="src/main/resources/region.txt";
+    private static final String CITY_PATH ="src/main/resources/city.txt";
+    private static final String STREET_PATH ="src/main/resources/street.txt";
+    private static final String HOUSE_PATH ="src/main/resources/house.txt";
+    private static final String FLAT_PATH ="src/main/resources/flatNumber.txt";
+    private int generatePersonNumber;
 
     FileRead() {}
 
@@ -44,21 +44,21 @@ class FileRead {
     }
 
     private void readPersonsNames() {
-        readAndSetData(firstNamePath);
-        readAndSetData(secondNamePath);
-        readAndSetData(thirdNamePath);
+        readAndSetData(FIRST_NAME_PATH);
+        readAndSetData(SECOND_NAME_PATH);
+        readAndSetData(THIRD_NAME_PATH);
     }
     private void readPersonsBirthDate() {
-        readAndSetData(datePath);
+        readAndSetData(DATE_PATH);
     }
 
     private void readPersonsLocation() {
-        readAndSetData(countryPath);
-        readAndSetData(regionPath);
-        readAndSetData(cityPath);
-        readAndSetData(streetPath);
-        readAndSetData(housePath);
-        readAndSetData(flatPath);
+        readAndSetData(COUNTRY_PATH);
+        readAndSetData(REGION_PATH);
+        readAndSetData(CITY_PATH);
+        readAndSetData(STREET_PATH);
+        readAndSetData(HOUSE_PATH);
+        readAndSetData(FLAT_PATH);
     }
 
     private void readAndSetData(String filePath)
@@ -71,51 +71,51 @@ class FileRead {
                 stringArray[i] = fileScanner.nextLine();
             }
             switch (filePath) {
-                case (firstNamePath): {
+                case (FIRST_NAME_PATH): {
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setName(stringArray[i]);
                     }
                     break;
-                case (secondNamePath):{
+                case (SECOND_NAME_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setSecondName(stringArray[i]);
                     }
                     break;
-                case (thirdNamePath):{
+                case (THIRD_NAME_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
-                        personsArrayDeque.get(i).setThirdName(stringArray[i]);
+                        personsArrayDeque.get(i).setMiddleName(stringArray[i]);
                      }
                      break;
-                case (datePath): {
+                case (DATE_PATH): {
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setBirthDay(getDate(stringArray[i]));
                      } break;
-                case (countryPath):{
+                case (COUNTRY_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setCountry(stringArray[i]);
                     }
                     break;
-                case (regionPath):{
+                case (REGION_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setRegion(stringArray[i]);
                     }
                     break;
-                case (streetPath):{
+                case (STREET_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setStreet(stringArray[i]);
                 }
                 break;
-                case (cityPath):{
+                case (CITY_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setCity(stringArray[i]);
                      }
                      break;
-                case (housePath):{
+                case (HOUSE_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setHouse(Integer.parseInt(stringArray[i]));
                      }
                      break;
-                case (flatPath):{
+                case (FLAT_PATH):{
                     for (int i=0; i<personsArrayDeque.toArray().length; i++)
                         personsArrayDeque.get(i).setFlat(Integer.parseInt(stringArray[i]));
                      }
@@ -132,7 +132,7 @@ class FileRead {
     }
 
     private void setPersonNumber(int personNumber) {
-        FileRead.generatePersonNumber = personNumber;
+        this.generatePersonNumber = personNumber;
     }
 
 

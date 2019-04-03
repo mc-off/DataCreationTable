@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -15,15 +16,15 @@ class PdfExport {
     private Document document;
     private PdfPTable table;
     private Font font;
-    private static String[] columns = { "Name", "Second name", "Third name", "Gender",
+    private static final String[] COLUMNS = { "Name", "Second name", "Third name", "Gender",
             "Age", "Birth date", "INN", "Index", "Country", "Region", "City", "Street", "House", "Flat" };
     private File pdfFile;
     PdfExport(){}
 
     void create(ArrayList<Person> personArrayList)
     {
-        createNewDocumnet();
-        createTable(columns.length);
+        createNewDocument();
+        createTable(COLUMNS.length);
         addTableHeader(table);
         setFont();
         for (Person person:personArrayList)
@@ -36,8 +37,8 @@ class PdfExport {
     }
     void createWithSQL(IteratorSQL iteratorSQL)
     {
-        createNewDocumnet();
-        createTable(columns.length);
+        createNewDocument();
+        createTable(COLUMNS.length);
         addTableHeader(table);
         setFont();
         for (int i=iteratorSQL.getMinID();i<=iteratorSQL.getMaxID();i++)
@@ -105,7 +106,7 @@ class PdfExport {
             e.printStackTrace();
         }
     }
-    private void createNewDocumnet()
+    private void createNewDocument()
     {
         try {
             try {
@@ -124,7 +125,7 @@ class PdfExport {
         }
     }
     private void addTableHeader(PdfPTable table) {
-        Stream.of(columns)
+        Stream.of(COLUMNS)
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -136,7 +137,7 @@ class PdfExport {
     private void addRows(Person person) {
             table.addCell(new Phrase(person.getName(),getFont()));
             table.addCell(new Phrase(person.getSecondName(),getFont()));
-            table.addCell(new Phrase(person.getThirdName(),getFont()));
+            table.addCell(new Phrase(person.getMiddleName(),getFont()));
             table.addCell(new Phrase(String.valueOf(person.getGender()),getFont()));
             table.addCell(String.valueOf(person.getAge()));
             table.addCell(person.getNiceLookingDate());
@@ -151,20 +152,25 @@ class PdfExport {
             table.setKeepTogether(true);
     }
     private void addRowsWithSQL(IteratorSQL iteratorSQL) {
-        table.addCell(new Phrase(iteratorSQL.getFirstName(),getFont()));
-        table.addCell(new Phrase(iteratorSQL.getSecondName(),getFont()));
-        table.addCell(new Phrase(iteratorSQL.getThirdName(),getFont()));
-        table.addCell(new Phrase(iteratorSQL.getGender(),getFont()));
-        table.addCell(String.valueOf(iteratorSQL.getFullAge()));
-        table.addCell(iteratorSQL.getNiceLookingDate());
-        table.addCell(iteratorSQL.getInn());
-        table.addCell((String.valueOf(iteratorSQL.getIndex())));
-        table.addCell(new Phrase(iteratorSQL.getCountry(),getFont()));
-        table.addCell(new Phrase(iteratorSQL.getRegion(),getFont()));
-        table.addCell(new Phrase(iteratorSQL.getCity(),getFont()));
-        table.addCell(new Phrase(iteratorSQL.getStreet(),getFont()));
-        table.addCell(String.valueOf(iteratorSQL.getHouse()));
-        table.addCell(String.valueOf(iteratorSQL.getFlat()));
+        try {
+            table.addCell(new Phrase(iteratorSQL.getFirstName(),getFont()));
+            table.addCell(new Phrase(iteratorSQL.getSecondName(),getFont()));
+            table.addCell(new Phrase(iteratorSQL.getMiddleName(),getFont()));
+            table.addCell(new Phrase(iteratorSQL.getGender(),getFont()));
+            table.addCell(String.valueOf(iteratorSQL.getFullAge()));
+            table.addCell(iteratorSQL.getNiceLookingDate());
+            table.addCell(iteratorSQL.getInn());
+            table.addCell((String.valueOf(iteratorSQL.getIndex())));
+            table.addCell(new Phrase(iteratorSQL.getCountry(),getFont()));
+            table.addCell(new Phrase(iteratorSQL.getRegion(),getFont()));
+            table.addCell(new Phrase(iteratorSQL.getCity(),getFont()));
+            table.addCell(new Phrase(iteratorSQL.getStreet(),getFont()));
+            table.addCell(String.valueOf(iteratorSQL.getHouse()));
+            table.addCell(String.valueOf(iteratorSQL.getFlat()));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
         table.setKeepTogether(true);
     }
 

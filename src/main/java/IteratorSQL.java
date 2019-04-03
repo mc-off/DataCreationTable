@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 class IteratorSQL {
-    private Connection con;
-    private Statement stmt;
-    private ResultSet rs;
+    private Connection connection;
+    private Statement statement;
+    private ResultSet resultSet;
     private int currentID;
     private int maxID;
     private int minID;
@@ -14,11 +14,11 @@ class IteratorSQL {
     IteratorSQL(String url, String user, String password)
     {
         try {
-            con = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);
             // disable autocommit
-            con.setAutoCommit(false);
+            connection.setAutoCommit(false);
             // getting Statement object to execute query
-            stmt = con.createStatement();
+            statement = connection.createStatement();
             this.minID = getPrivateMinID();
             this.maxID=getPrivateMaxID();
             this.currentID = minID;
@@ -31,284 +31,284 @@ class IteratorSQL {
     void close()
     {
         try {
-            con.close();
-        } catch (SQLException se) { /*can't do anything */ }
+            connection.close();
+        } catch (SQLException se) { se.printStackTrace(); }
         try {
-            stmt.close();
-        } catch (SQLException se) { /*can't do anything */ }
+            statement.close();
+        } catch (SQLException se) { se.printStackTrace(); }
         try {
-            rs.close();
-        } catch (SQLException se) { /*can't do anything */ }
+            resultSet.close();
+        } catch (SQLException se) { se.printStackTrace(); }
     }
 
-    String getFirstName()
+    String getFirstName() throws SQLException
     {
         try {
-            String responce = "Select persons.name from persons where (address_id=?)";
-            PreparedStatement ps = con.prepareStatement(responce);
+            String responce = "SELECT name FROM persons WHERE (address_id=?)";
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
-    String getSecondName()
+    String getSecondName() throws SQLException
     {
         try {
             String responce = "Select persons.surname from persons where (address_id=?)";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
 
-    String getThirdName()
+    String getMiddleName() throws SQLException
     {
         try {
             String responce = "Select middlename from persons where address_id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
 
-    private Date getBirthDate()
+    private Date getBirthDate()throws SQLException
     {
         try {
             String responce = "Select birthday from persons where address_id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             Date selectedDate= new Date();
-            while (rs.next())
-            selectedDate = rs.getDate(1);
+            while (resultSet.next())
+            selectedDate = resultSet.getDate(1);
             return selectedDate;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return new Date();
+            throw e;
         }
     }
 
-    String getGender()
+    String getGender() throws SQLException
     {
         try {
             String responce = "Select gender from persons where address_id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
 
-    String getInn()
+    String getInn() throws SQLException
     {
         try {
-            String responce = "Select inn from persons where address_id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            String response = "Select inn from persons where address_id=?";
+            PreparedStatement ps = connection.prepareStatement(response);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
 
-    int getIndex()
+    int getIndex() throws SQLException
     {
         try {
-            String responce = "Select postcode from address where id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            String response = "Select postcode from address where id=?";
+            PreparedStatement ps = connection.prepareStatement(response);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             int num=0;
-            while (rs.next())
-                num = rs.getInt(1);
+            while (resultSet.next())
+                num = resultSet.getInt(1);
             return num;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return 0;
+            throw e;
         }
     }
 
-    String getCountry()
+    String getCountry() throws SQLException
     {
         try {
             String responce = "Select country from address where id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
 
-    String getRegion()
+    String getRegion() throws SQLException
     {
         try {
             String responce = "Select region from address where id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
-    String getCity()
+    String getCity() throws SQLException
     {
         try {
             String responce = "Select city from address where id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString = "";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
 
-    String getStreet()
+    String getStreet()throws SQLException
     {
         try {
             String responce = "Select street from address where id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             String dataString="";
-            while (rs.next())
-                dataString = rs.getString(1);
+            while (resultSet.next())
+                dataString = resultSet.getString(1);
             return dataString;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "";
+            throw e;
         }
     }
-    int getHouse()
+    int getHouse()throws SQLException
     {
         try {
             String responce = "Select house from address where id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             int num=0;
-            while (rs.next())
-                num = rs.getInt(1);
+            while (resultSet.next())
+                num = resultSet.getInt(1);
             return num;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return 0;
+            throw e;
         }
     }
-    int getFlat()
+    int getFlat()throws SQLException
     {
         try {
             String responce = "Select flat from address where id=?";
-            PreparedStatement ps = con.prepareStatement(responce);
+            PreparedStatement ps = connection.prepareStatement(responce);
             ps.setInt (1, currentID);
-            rs = ps.executeQuery();
+            resultSet = ps.executeQuery();
             int num=0;
-            while (rs.next())
-                num = rs.getInt(1);
+            while (resultSet.next())
+                num = resultSet.getInt(1);
             return num;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return 0;
+            throw e;
         }
     }
-    private int getPrivateMinID()
+    private int getPrivateMinID() throws SQLException
     {
         try {
             String response = "Select MIN(address_id) from persons";
-            PreparedStatement ps = con.prepareStatement(response);
-            rs = ps.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(response);
+            resultSet = ps.executeQuery();
             int num=0;
-            while (rs.next())
-                num = rs.getInt(1);
+            while (resultSet.next())
+                num = resultSet.getInt(1);
             return num;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return 0;
+            throw e;
         }
     }
     private int getPrivateMaxID()
     {
         try {
             String response = "Select MAX(address_id) from persons";
-            PreparedStatement ps = con.prepareStatement(response);
-            rs = ps.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(response);
+            resultSet = ps.executeQuery();
             int num=0;
-            while (rs.next())
-                num = rs.getInt(1);
+            while (resultSet.next())
+                num = resultSet.getInt(1);
             return num;
         }
         catch (SQLException e)
@@ -338,7 +338,7 @@ class IteratorSQL {
         this.currentID = currentID+1;
 
     }
-    int getFullAge()
+    int getFullAge() throws SQLException
     {
         Date modernDate = new Date();
         long difference = (modernDate.getTime()-getBirthDate().getTime())/1000; //calculate difference and convert it into sec
@@ -346,7 +346,7 @@ class IteratorSQL {
         long differenceYear = difference/year;
         return (int)differenceYear;
     }
-    String getNiceLookingDate()
+    String getNiceLookingDate() throws SQLException
     {
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
