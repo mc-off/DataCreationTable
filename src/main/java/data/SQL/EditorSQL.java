@@ -210,13 +210,13 @@ public class EditorSQL {
     {
 
         try {
-            String query = "Select * from persons";
+            String query = "Select COUNT(id) from persons";
             PreparedStatement ps = connection.prepareStatement(query);
             resultSet = ps.executeQuery();
-            String string = "";
+            int result = 0;
             while (resultSet.next())
-                string = resultSet.getString("surname");
-            return (string.equals(""));
+                result = resultSet.getInt(1);
+            return (result==0);
         }
         catch (SQLException e)
         {
