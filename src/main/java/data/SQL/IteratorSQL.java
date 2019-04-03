@@ -1,9 +1,11 @@
+package data.SQL;
+
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class IteratorSQL {
+public class IteratorSQL {
     private Connection connection;
     private Statement statement;
     private ResultSet resultSet;
@@ -28,7 +30,7 @@ class IteratorSQL {
             e.printStackTrace();
         }
     }
-    void close()
+    public void close()
     {
         try {
             connection.close();
@@ -41,7 +43,7 @@ class IteratorSQL {
         } catch (SQLException se) { se.printStackTrace(); }
     }
 
-    String getFirstName() throws SQLException
+    public String getFirstName() throws SQLException
     {
         try {
             String responce = "SELECT name FROM persons WHERE (address_id=?)";
@@ -59,7 +61,7 @@ class IteratorSQL {
             throw e;
         }
     }
-    String getSecondName() throws SQLException
+    public String getSecondName() throws SQLException
     {
         try {
             String responce = "Select persons.surname from persons where (address_id=?)";
@@ -78,7 +80,7 @@ class IteratorSQL {
         }
     }
 
-    String getMiddleName() throws SQLException
+    public String getMiddleName() throws SQLException
     {
         try {
             String responce = "Select middlename from persons where address_id=?";
@@ -116,7 +118,7 @@ class IteratorSQL {
         }
     }
 
-    String getGender() throws SQLException
+    public String getGender() throws SQLException
     {
         try {
             String responce = "Select gender from persons where address_id=?";
@@ -135,7 +137,7 @@ class IteratorSQL {
         }
     }
 
-    String getInn() throws SQLException
+    public String getInn() throws SQLException
     {
         try {
             String response = "Select inn from persons where address_id=?";
@@ -154,7 +156,7 @@ class IteratorSQL {
         }
     }
 
-    int getIndex() throws SQLException
+    public int getIndex() throws SQLException
     {
         try {
             String response = "Select postcode from address where id=?";
@@ -173,7 +175,7 @@ class IteratorSQL {
         }
     }
 
-    String getCountry() throws SQLException
+    public String getCountry() throws SQLException
     {
         try {
             String responce = "Select country from address where id=?";
@@ -192,7 +194,7 @@ class IteratorSQL {
         }
     }
 
-    String getRegion() throws SQLException
+    public String getRegion() throws SQLException
     {
         try {
             String responce = "Select region from address where id=?";
@@ -210,7 +212,7 @@ class IteratorSQL {
             throw e;
         }
     }
-    String getCity() throws SQLException
+    public String getCity() throws SQLException
     {
         try {
             String responce = "Select city from address where id=?";
@@ -229,7 +231,7 @@ class IteratorSQL {
         }
     }
 
-    String getStreet()throws SQLException
+    public String getStreet()throws SQLException
     {
         try {
             String responce = "Select street from address where id=?";
@@ -247,7 +249,7 @@ class IteratorSQL {
             throw e;
         }
     }
-    int getHouse()throws SQLException
+    public int getHouse()throws SQLException
     {
         try {
             String responce = "Select house from address where id=?";
@@ -265,7 +267,7 @@ class IteratorSQL {
             throw e;
         }
     }
-    int getFlat()throws SQLException
+    public int getFlat()throws SQLException
     {
         try {
             String responce = "Select flat from address where id=?";
@@ -318,27 +320,27 @@ class IteratorSQL {
         }
     }
 
-    int getMinID()
+    public int getMinID()
     {
         return minID;
     }
 
-    int getMaxID()
+    public int getMaxID()
     {
         return maxID;
     }
 
-    void setCurrentID(int newID)
+    public void setCurrentID(int newID)
     {
         this.currentID=newID;
     }
 
-    void incCurrentID()
+    public void incCurrentID()
     {
         this.currentID = currentID+1;
 
     }
-    int getFullAge() throws SQLException
+    public int getFullAge() throws SQLException
     {
         Date modernDate = new Date();
         long difference = (modernDate.getTime()-getBirthDate().getTime())/1000; //calculate difference and convert it into sec
@@ -346,7 +348,7 @@ class IteratorSQL {
         long differenceYear = difference/year;
         return (int)differenceYear;
     }
-    String getNiceLookingDate() throws SQLException
+    public String getNiceLookingDate() throws SQLException
     {
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");

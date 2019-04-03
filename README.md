@@ -20,7 +20,7 @@ These libraries are automatically downloaded because of used Maven with written 
 
 In **Main.java** class there is one start parameter - max users number, that can be generate.
 
-In **EditorSQL.java** class there are three parameters for connecting to your SQL database server:
+In **SQL.EditorSQL.java** class there are three parameters for connecting to your data.SQL database server:
 
 1. url, where **fintech** - name of your database.
 
@@ -32,9 +32,9 @@ Recommend to change it if there is a stable internet connection, because program
 
 Changing output file names:
 
-1.To change the name of the output .PDF file, you must change the parameter *File myFile = new File(your parameter)* in the method *writeFileOut()* of the class *ExcelExport*
+1.To change the name of the output .PDF file, you must change the parameter *File myFile = new File(your parameter)* in the method *writeFileOut()* of the class *exporters.ExcelExport*
 
-2.To change the name of the output .PDF file, you must change the parameter *setPdfFile(new File(your parameter))* in the method *createNewDocumnet()* of the class *PdfExport*
+2.To change the name of the output .PDF file, you must change the parameter *setPdfFile(new File(your parameter))* in the method *createNewDocumnet()* of the class *exporters.PdfExport*
 
 <h2> WARNING </h2>
 Cyrillic symbols export to .PDF only work with font from */resources* folder

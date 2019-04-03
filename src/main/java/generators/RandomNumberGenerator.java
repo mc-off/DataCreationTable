@@ -1,8 +1,10 @@
+package generators;
+
 import java.util.Random;
 
-class RandomNumberGenerator {
-    RandomNumberGenerator(){}
-    int generate(int minNumber, int maxNumber)
+public class RandomNumberGenerator {
+    public RandomNumberGenerator(){}
+    public int generate(int minNumber, int maxNumber)
     {
         int difference = maxNumber - minNumber;
         Random random = new Random();

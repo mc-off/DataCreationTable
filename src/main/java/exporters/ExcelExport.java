@@ -1,3 +1,7 @@
+package exporters;
+
+import data.SQL.IteratorSQL;
+import data.models.Person;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.File;
@@ -15,7 +19,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 
 
-class ExcelExport {
+public class ExcelExport {
 
     private Workbook workbook;
     private Sheet sheet;
@@ -25,7 +29,33 @@ class ExcelExport {
     private  FileOutputStream fileOut;
     private static String[] columns = { "Имя", "Фамилия", "Отчество", "Пол",
             "Возраст", "Дата рождения", "ИНН", "Индекс", "Страна", "Регион", "Город", "Улица", "Дом", "Квартира" };
-    ExcelExport(){}
+    public ExcelExport(){}
+
+    public void create(ArrayList<Person> personArrayList)
+    {
+        setNewWorkbook();
+        String newSheetName = ("Persons");
+        setNewSheet(newSheetName);
+        setFont();
+        setHeaderCellStyle();
+        createRow();
+        createDataCells(personArrayList);
+        resizeColumns();
+        writeFileOut();
+    }
+
+    public void createFromSQL(IteratorSQL iteratorSQL)
+    {
+        setNewWorkbook();
+        String newSheetName = ("Persons");
+        setNewSheet(newSheetName);
+        setFont();
+        setHeaderCellStyle();
+        createRow();
+        createDataCellsFromSQL(iteratorSQL);
+        resizeColumns();
+        writeFileOut();
+    }
 
     private void setNewWorkbook()
     {
@@ -123,31 +153,7 @@ class ExcelExport {
             }
         }
     }
-    void create(ArrayList<Person> personArrayList)
-    {
-            setNewWorkbook();
-            String newSheetName = ("Persons");
-            setNewSheet(newSheetName);
-            setFont();
-            setHeaderCellStyle();
-            createRow();
-            createDataCells(personArrayList);
-            resizeColumns();
-            writeFileOut();
-    }
 
-    void createFromSQL(IteratorSQL iteratorSQL)
-    {
-        setNewWorkbook();
-        String newSheetName = ("Persons");
-        setNewSheet(newSheetName);
-        setFont();
-        setHeaderCellStyle();
-        createRow();
-        createDataCellsFromSQL(iteratorSQL);
-        resizeColumns();
-        writeFileOut();
-    }
     private void createDataCellsFromSQL(IteratorSQL iteratorSQL)
     {
         int rowNum = 1;

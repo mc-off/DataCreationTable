@@ -1,12 +1,20 @@
+package data.readers;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import data.models.Person;
+import exporters.ExcelExport;
+import exporters.PdfExport;
+import generators.RandomNumberGenerator;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import models.*;
+import data.models.api.BirthDate;
+import data.models.api.User;
 import org.json.JSONArray;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-class ApiDataRead {
+public class ApiDataRead {
 
     private RandomNumberGenerator numberGenerator;
 
@@ -27,12 +35,12 @@ class ApiDataRead {
     @Setter
     private User randomUser;
 
-    ApiDataRead()
+   public ApiDataRead()
   {
       this.personArrayList = new ArrayList<>();
       this.numberGenerator = new RandomNumberGenerator();
   }
-  void take(int maxPersonReadNumber)
+  public void take(int maxPersonReadNumber)
   {
          int personNumber = numberGenerator.generate(1, maxPersonReadNumber);
              for (int currentPerson = 0; currentPerson < personNumber; currentPerson++)
@@ -46,7 +54,7 @@ class ApiDataRead {
   }
 
 
-  boolean setNewRandomUser()
+  public boolean setNewRandomUser()
   {
       try {
           JSONArray newJsonObject = Unirest.get(RANDOMUSER_RU_API_JSON).asJson().getBody().getArray();
@@ -64,7 +72,7 @@ class ApiDataRead {
       }
   }
 
-  boolean connect()
+  public boolean connect()
   {
       try {
           Unirest.get(RANDOMUSER_RU_API_JSON).asJson();
@@ -89,13 +97,13 @@ class ApiDataRead {
         setPersonsLocation(currentPerson);
     }
 
-    void excelExport()
+    public void excelExport()
     {
         ExcelExport newExport = new ExcelExport();
         newExport.create(getPersonArrayList());
     }
 
-    void pdfExport()
+    public void pdfExport()
     {
         PdfExport newExport = new PdfExport();
         newExport.create(getPersonArrayList());
@@ -166,7 +174,7 @@ class ApiDataRead {
         personArrayList.get(currentPerson).setFlat(getFlat());
     }
 
-    Date getRandomBirthDate() {
+    public Date getRandomBirthDate() {
         Response response = RestAssured.given()
                 .baseUri(RANDOMUSER_ME_API)
                 .get();
@@ -188,52 +196,52 @@ class ApiDataRead {
         return date;
     }
 
-    String getFirstName()
+    public String getFirstName()
     {
         return randomUser.getUser().getName().getFirst();
     }
 
-    String getSecondName()
+    public String getSecondName()
     {
         return randomUser.getUser().getName().getLast();
     }
 
-    String getThirdName()
+    public String getThirdName()
     {
         return randomUser.getUser().getName().getMiddle();
     }
 
-    String getDefaultCountry()
+    public String getDefaultCountry()
     {
         return ("Россия");
     }
 
-    String getRegion()
+    public String getRegion()
     {
         return randomUser.getUser().getLocation().getState();
     }
 
-    String getCity()
+    public String getCity()
     {
         return randomUser.getUser().getLocation().getCity();
     }
 
-    String getStreet()
+    public String getStreet()
     {
         return randomUser.getUser().getLocation().getStreet();
     }
 
-    Integer getHouse()
+    public Integer getHouse()
     {
         return randomUser.getUser().getLocation().getBuilding();
     }
 
-    Integer getIndex()
+    public Integer getIndex()
     {
         return randomUser.getUser().getLocation().getZip();
     }
 
-    int getFlat()
+    public int getFlat()
     {
         return (numberGenerator.generate(1,500));
     }

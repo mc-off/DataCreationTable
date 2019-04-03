@@ -1,11 +1,29 @@
+package data.models;
+
+import generators.PersonalINNGenerator;
+import generators.RandomNumberGenerator;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class Person {
+@Getter
+@Setter
+public class Person {
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
     private String secondName;
+    @Getter
+    @Setter
     private String middleName;
+    @Getter
+    @Setter
     private char gender;
     private int age;
     private Date birthDate;
@@ -18,12 +36,12 @@ class Person {
     private int house;
     private int flat;
 
-    Person(){
+    public Person(){
         setAutoGenIndex();
         setAutoGenINN();
     }
 
-    String getNiceLookingDate()
+    public String getNiceLookingDate()
     {
         DateFormat formatter;
         formatter = new SimpleDateFormat("dd.mm.yyyy");
@@ -55,42 +73,10 @@ class Person {
         setIndex(randomIndex.generate(100000 ,200000));
     }
 
-    String getName() {
-        return name;
-    }
-
-    String getSecondName() {
-        return secondName;
-    }
-
-    void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    char getGender() {
-        return gender;
-    }
-
-    String getMiddleName() {
-        return middleName;
-    }
-
-    void setMiddleName(String middleName) {
-        this.middleName = middleName;
-        setAutoGenGender();
-    }
-
-    int getAge() {
-        return age;
-    }
-
     private void setGender(char gender) {
         this.gender = gender;
     }
 
-    int getIndex() {
-        return index;
-    }
 
     private void setIndex(int index) {
         this.index = index;
@@ -104,71 +90,16 @@ class Person {
         return birthDate;
     }
 
-    void setBirthDay(Date birthDate) {
+    public void setBirthDay(Date birthDate) {
         this.birthDate = birthDate;
         setAge(getFullAge(birthDate));
 
-    }
-
-    String getINN() {
-        return INN;
     }
 
     private void setINN(String INN) {
         this.INN = INN;
     }
 
-    String getCity() {
-        return city;
-    }
-
-    void setCity(String city) {
-        this.city = city;
-    }
-
-    String getStreet() {
-        return street;
-    }
-
-    void setStreet(String street) {
-        this.street = street;
-    }
-
-    int getHouse() {
-        return house;
-    }
-
-    void setHouse(int house) {
-        this.house = house;
-    }
-
-    int getFlat() {
-        return flat;
-    }
-
-    void setFlat(int flat) {
-        this.flat = flat;
-    }
-
-    void setName(String name) {
-        this.name = name;
-    }
-
-    String getCountry() {
-        return country;
-    }
-
-    String getRegion() {
-        return region;
-    }
-
-    void setCountry(String country) {
-        this.country = country;
-    }
-
-    void setRegion(String region) {
-        this.region = region;
-    }
 
     private int getFullAge(Date birthDate)
     {

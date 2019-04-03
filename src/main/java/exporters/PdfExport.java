@@ -1,8 +1,12 @@
+package exporters;
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.SQL.IteratorSQL;
+import data.models.Person;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,16 +16,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-class PdfExport {
+public class PdfExport {
     private Document document;
     private PdfPTable table;
     private Font font;
     private static final String[] COLUMNS = { "Name", "Second name", "Third name", "Gender",
             "Age", "Birth date", "INN", "Index", "Country", "Region", "City", "Street", "House", "Flat" };
     private File pdfFile;
-    PdfExport(){}
+    public PdfExport(){}
 
-    void create(ArrayList<Person> personArrayList)
+    public void create(ArrayList<Person> personArrayList)
     {
         createNewDocument();
         createTable(COLUMNS.length);
@@ -35,7 +39,7 @@ class PdfExport {
         closeDocument();
 
     }
-    void createWithSQL(IteratorSQL iteratorSQL)
+    public void createWithSQL(IteratorSQL iteratorSQL)
     {
         createNewDocument();
         createTable(COLUMNS.length);

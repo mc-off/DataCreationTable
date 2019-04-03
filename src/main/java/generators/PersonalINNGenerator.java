@@ -1,12 +1,14 @@
+package generators;
+
 import java.util.ArrayList;
 
-class PersonalINNGenerator {
+public class PersonalINNGenerator {
     private ArrayList<Integer> INN;
     private String stringINN;
     private int region;
     private int[] officeArray;
     private RandomNumberGenerator randomGen;
-    PersonalINNGenerator()
+    public PersonalINNGenerator()
     {
         setNewINN();
         randomGen = new RandomNumberGenerator();
@@ -34,7 +36,7 @@ class PersonalINNGenerator {
             }
         }
     }
-    String getStringINN()
+    public String getStringINN()
     {
         return stringINN;
     }
@@ -75,7 +77,7 @@ class PersonalINNGenerator {
     }
 
 
-    void generate()
+    public void generate()
     {
         setINNRegion();
         setINNOffice();

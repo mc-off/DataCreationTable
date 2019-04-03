@@ -1,16 +1,22 @@
+package data.SQL;
+
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+import data.readers.ApiDataRead;
+import exporters.ExcelExport;
+import exporters.PdfExport;
+import generators.PersonalINNGenerator;
 
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class EditorSQL {
+public class EditorSQL {
 
     // JDBC URL, username and password of your MySQL server
     private static final String url = "jdbc:mysql://localhost:3306/fintech?useUnicode=true&serverTimezone=UTC&useSSL=false";
     private static final String user = "root";
-    private static final String password = "root";
+    private static final String password = "1234567";
 
     // JDBC variables for opening and managing connection
     private Connection connection;
@@ -20,12 +26,12 @@ class EditorSQL {
 
     private ApiDataRead apiDataRead;
 
-    EditorSQL()
+    public EditorSQL()
     {
         apiDataRead = new ApiDataRead();
     }
 
-    void fill(int maxPersonNumber) {
+    public void fill(int maxPersonNumber) {
         try {
             connection = DriverManager.getConnection(url, user, password);
             // disable autocommit
@@ -63,7 +69,7 @@ class EditorSQL {
         }
     }
 
-    void export() {
+    public void export() {
         IteratorSQL iteratorSQL = new IteratorSQL(url, user, password);
         ExcelExport excelExport = new ExcelExport();
         excelExport.createFromSQL(iteratorSQL);
@@ -72,7 +78,7 @@ class EditorSQL {
         iteratorSQL.close();
     }
 
-    boolean connect()
+    public boolean connect()
     {
         try {
             try {
@@ -87,7 +93,7 @@ class EditorSQL {
             }
         } catch (SQLException e)
         {
-            e.printStackTrace();
+            System.out.println("Couldn't connect to database");
             return false;
         }
 
@@ -200,7 +206,7 @@ class EditorSQL {
 
     }
 
-    boolean testIfEmpty()
+    public boolean testIfEmpty()
     {
 
         try {

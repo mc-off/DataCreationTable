@@ -1,9 +1,16 @@
+package data.readers;
+
+import data.models.Person;
+import exporters.ExcelExport;
+import exporters.PdfExport;
+import generators.RandomNumberGenerator;
+
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-class FileRead {
+public class FileRead {
     private ArrayList<Person> personsArrayDeque;
     private static final String FIRST_NAME_PATH ="src/main/resources/firstName.txt";
     private static final String SECOND_NAME_PATH ="src/main/resources/secondName.txt";
@@ -17,12 +24,24 @@ class FileRead {
     private static final String FLAT_PATH ="src/main/resources/flatNumber.txt";
     private int generatePersonNumber;
 
-    FileRead() {}
+    public FileRead() {}
 
-    void take(int maxPersonNumber) {
+    public void take(int maxPersonNumber) {
         setRandomPersonNumber(maxPersonNumber);
         getNewPersonsList(generatePersonNumber);
         readPersonsData();
+    }
+
+    public void excelExport()
+    {
+        ExcelExport newExport = new ExcelExport();
+        newExport.create(getPersonsArrayDeque());
+    }
+
+    public void pdfExport()
+    {
+        PdfExport newExport = new PdfExport();
+        newExport.create(getPersonsArrayDeque());
     }
 
     private void readPersonsData() {
@@ -31,17 +50,6 @@ class FileRead {
         readPersonsLocation();
     }
 
-    void excelExport()
-    {
-        ExcelExport newExport = new ExcelExport();
-        newExport.create(getPersonsArrayDeque());
-    }
-
-    void pdfExport()
-    {
-        PdfExport newExport = new PdfExport();
-        newExport.create(getPersonsArrayDeque());
-    }
 
     private void readPersonsNames() {
         readAndSetData(FIRST_NAME_PATH);

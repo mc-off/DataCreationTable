@@ -1,17 +1,17 @@
-package models;
+package data.models.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-@Getter
-@Setter
+@Getter (AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private Resources user;
 
-    @Getter
-    @Setter
+    @Getter(AccessLevel.PUBLIC)
+    @Setter(AccessLevel.PUBLIC)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Resources {
 
@@ -19,8 +19,8 @@ public class User {
         private Name name;
         private Location location;
 
-        @Getter
-        @Setter
+        @Getter(AccessLevel.PUBLIC)
+        @Setter(AccessLevel.PUBLIC)
         @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Name {
             private String middle;
@@ -28,8 +28,8 @@ public class User {
             private String last;
         }
 
-        @Getter
-        @Setter
+        @Getter(AccessLevel.PUBLIC)
+        @Setter(AccessLevel.PUBLIC)
         @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Location {
             private String street;
