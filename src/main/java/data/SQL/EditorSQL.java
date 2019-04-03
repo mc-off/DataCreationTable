@@ -1,12 +1,23 @@
 package data.SQL;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
+import data.models.SQL.UserSQL;
 import data.readers.ApiDataRead;
 import exporters.ExcelExport;
 import exporters.PdfExport;
 import generators.PersonalINNGenerator;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
+
 import java.sql.*;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,9 +25,10 @@ import java.util.Date;
 public class EditorSQL {
 
     // JDBC URL, username and password of your MySQL server
-    private static final String url = "jdbc:mysql://localhost:3306/fintech?useUnicode=true&serverTimezone=UTC&useSSL=false";
-    private static final String user = "root";
-    private static final String password = "1234567";
+    private static final String JSON_USER_MYSQL_PATH = "src/main/resources/userSQL.json";
+    private String url;
+    private String user;
+    private String password;
 
     // JDBC variables for opening and managing connection
     private Connection connection;
@@ -29,6 +41,7 @@ public class EditorSQL {
     public EditorSQL()
     {
         apiDataRead = new ApiDataRead();
+        getUserData();
     }
 
     public void fill(int maxPersonNumber) {
@@ -97,6 +110,35 @@ public class EditorSQL {
             return false;
         }
 
+    }
+
+    private void getUserData()
+    {
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader(JSON_USER_MYSQL_PATH))
+        {
+            //Read JSON file
+            Object parseObject = jsonParser.parse(reader);
+
+            JSONObject jsonObject = (JSONObject) parseObject;
+
+            //Object mapper
+            ObjectMapper mapper = new ObjectMapper();
+
+            //Get new object of UserSQL class through mapper parsing
+            UserSQL userSQL =  mapper.readValue(jsonObject.toJSONString(),UserSQL.class);
+
+            setUrl(userSQL.getUrl());
+            setUser(userSQL.getUser());
+            setPassword(userSQL.getPassword());
+
+            System.out.println(userSQL.toString());
+        }
+        catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean tryToUpdate()
@@ -273,5 +315,17 @@ public class EditorSQL {
             return ('М');
         }
         else return ('?');
+    }
+
+    private void setUrl(String url) {
+        this.url = url;
+    }
+
+    private void setUser(String user) {
+        this.user = user;
+    }
+
+    private void setPassword(String password) {
+        this.password = password;
     }
 }
