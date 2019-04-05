@@ -45,8 +45,10 @@ public class PdfExport {
         createTable(COLUMNS.length);
         addTableHeader(table);
         setFont();
+        iteratorSQL.setCurrentID(iteratorSQL.getMinID());
         for (int i=iteratorSQL.getMinID();i<=iteratorSQL.getMaxID();i++)
         {
+            iteratorSQL.setNewUser();
             addRowsWithSQL(iteratorSQL);
             iteratorSQL.incCurrentID();
         }
@@ -164,7 +166,7 @@ public class PdfExport {
             table.addCell(String.valueOf(iteratorSQL.getFullAge()));
             table.addCell(iteratorSQL.getNiceLookingDate());
             table.addCell(iteratorSQL.getInn());
-            table.addCell((String.valueOf(iteratorSQL.getIndex())));
+            table.addCell((String.valueOf(iteratorSQL.getPostcode())));
             table.addCell(new Phrase(iteratorSQL.getCountry(),getFont()));
             table.addCell(new Phrase(iteratorSQL.getRegion(),getFont()));
             table.addCell(new Phrase(iteratorSQL.getCity(),getFont()));

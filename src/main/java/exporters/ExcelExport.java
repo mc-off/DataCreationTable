@@ -158,10 +158,11 @@ public class ExcelExport {
     {
         int rowNum = 1;
 
-        for (int j=iteratorSQL.getMinID();j<iteratorSQL.getMaxID();j++) {
+        for (int j=iteratorSQL.getMinID();j<=iteratorSQL.getMaxID();j++) {
             Row row = sheet.createRow(rowNum++);
             int i=0;
             try {
+                iteratorSQL.setNewUser();
                 row.createCell(i).setCellValue(iteratorSQL.getFirstName()); i++;
                 row.createCell(i).setCellValue(iteratorSQL.getSecondName());i++;
                 row.createCell(i).setCellValue(iteratorSQL.getMiddleName());i++;
@@ -169,7 +170,7 @@ public class ExcelExport {
                 row.createCell(i).setCellValue(iteratorSQL.getFullAge());i++;
                 row.createCell(i).setCellValue(iteratorSQL.getNiceLookingDate());i++;
                 row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getInn()));i++;
-                row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getIndex()));i++;
+                row.createCell(i).setCellValue(String.valueOf(iteratorSQL.getPostcode()));i++;
                 row.createCell(i).setCellValue(iteratorSQL.getCountry());i++;
                 row.createCell(i).setCellValue(iteratorSQL.getRegion());i++;
                 row.createCell(i).setCellValue(iteratorSQL.getCity());i++;

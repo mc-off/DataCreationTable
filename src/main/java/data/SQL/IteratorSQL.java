@@ -30,7 +30,7 @@ public class IteratorSQL {
             e.printStackTrace();
         }
     }
-    public void close()
+    void close()
     {
         try {
             connection.close();
@@ -43,16 +43,32 @@ public class IteratorSQL {
         } catch (SQLException se) { se.printStackTrace(); }
     }
 
+    public void setNewUser()
+    {
+        try {
+            String response = "SELECT * FROM persons JOIN address ON address.id = persons.address_id where address.id=?";
+            PreparedStatement ps = connection.prepareStatement(response);
+            ps.setInt (1, currentID);
+            resultSet = ps.executeQuery();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void incCurrentID()
+    {
+        this.currentID = currentID+1;
+    }
+
     public String getFirstName() throws SQLException
     {
         try {
-            String responce = "SELECT name FROM persons WHERE (address_id=?)";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("name");
             return dataString;
         }
         catch (SQLException e)
@@ -64,13 +80,11 @@ public class IteratorSQL {
     public String getSecondName() throws SQLException
     {
         try {
-            String responce = "Select persons.surname from persons where (address_id=?)";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("surname");
+            System.out.println(dataString);
             return dataString;
         }
         catch (SQLException e)
@@ -83,13 +97,10 @@ public class IteratorSQL {
     public String getMiddleName() throws SQLException
     {
         try {
-            String responce = "Select middlename from persons where address_id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("middlename");
             return dataString;
         }
         catch (SQLException e)
@@ -102,13 +113,10 @@ public class IteratorSQL {
     private Date getBirthDate()throws SQLException
     {
         try {
-            String responce = "Select birthday from persons where address_id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             Date selectedDate= new Date();
             while (resultSet.next())
-            selectedDate = resultSet.getDate(1);
+            selectedDate = resultSet.getDate("birthday");
             return selectedDate;
         }
         catch (SQLException e)
@@ -121,13 +129,10 @@ public class IteratorSQL {
     public String getGender() throws SQLException
     {
         try {
-            String responce = "Select gender from persons where address_id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("gender");
             return dataString;
         }
         catch (SQLException e)
@@ -140,13 +145,10 @@ public class IteratorSQL {
     public String getInn() throws SQLException
     {
         try {
-            String response = "Select inn from persons where address_id=?";
-            PreparedStatement ps = connection.prepareStatement(response);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("inn");
             return dataString;
         }
         catch (SQLException e)
@@ -156,16 +158,13 @@ public class IteratorSQL {
         }
     }
 
-    public int getIndex() throws SQLException
+    public int getPostcode() throws SQLException
     {
         try {
-            String response = "Select postcode from address where id=?";
-            PreparedStatement ps = connection.prepareStatement(response);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             int num=0;
             while (resultSet.next())
-                num = resultSet.getInt(1);
+                num = resultSet.getInt("postcode");
             return num;
         }
         catch (SQLException e)
@@ -178,13 +177,10 @@ public class IteratorSQL {
     public String getCountry() throws SQLException
     {
         try {
-            String responce = "Select country from address where id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("country");
             return dataString;
         }
         catch (SQLException e)
@@ -197,13 +193,10 @@ public class IteratorSQL {
     public String getRegion() throws SQLException
     {
         try {
-            String responce = "Select region from address where id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("region");
             return dataString;
         }
         catch (SQLException e)
@@ -215,13 +208,10 @@ public class IteratorSQL {
     public String getCity() throws SQLException
     {
         try {
-            String responce = "Select city from address where id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString = "";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("city");
             return dataString;
         }
         catch (SQLException e)
@@ -234,13 +224,10 @@ public class IteratorSQL {
     public String getStreet()throws SQLException
     {
         try {
-            String responce = "Select street from address where id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             String dataString="";
             while (resultSet.next())
-                dataString = resultSet.getString(1);
+                dataString = resultSet.getString("street");
             return dataString;
         }
         catch (SQLException e)
@@ -252,13 +239,11 @@ public class IteratorSQL {
     public int getHouse()throws SQLException
     {
         try {
-            String responce = "Select house from address where id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             int num=0;
-            while (resultSet.next())
-                num = resultSet.getInt(1);
+            while (resultSet.next()) {
+                num = resultSet.getInt("house");
+            }
             return num;
         }
         catch (SQLException e)
@@ -270,13 +255,10 @@ public class IteratorSQL {
     public int getFlat()throws SQLException
     {
         try {
-            String responce = "Select flat from address where id=?";
-            PreparedStatement ps = connection.prepareStatement(responce);
-            ps.setInt (1, currentID);
-            resultSet = ps.executeQuery();
+            resultSet.beforeFirst();
             int num=0;
             while (resultSet.next())
-                num = resultSet.getInt(1);
+                num = resultSet.getInt("flat");
             return num;
         }
         catch (SQLException e)
@@ -335,11 +317,6 @@ public class IteratorSQL {
         this.currentID=newID;
     }
 
-    public void incCurrentID()
-    {
-        this.currentID = currentID+1;
-
-    }
     public int getFullAge() throws SQLException
     {
         Date modernDate = new Date();

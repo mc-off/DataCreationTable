@@ -2,7 +2,6 @@ package data.models;
 
 import generators.PersonalINNGenerator;
 import generators.RandomNumberGenerator;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,17 +12,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class Person {
-    @Getter
-    @Setter
     private String name;
-    @Getter
-    @Setter
     private String secondName;
-    @Getter
-    @Setter
     private String middleName;
-    @Getter
-    @Setter
     private char gender;
     private int age;
     private Date birthDate;
@@ -46,6 +37,12 @@ public class Person {
         DateFormat formatter;
         formatter = new SimpleDateFormat("dd.mm.yyyy");
         return (formatter.format(getBirthDay()));
+    }
+
+    public void setMiddleName(String middleName)
+    {
+        this.middleName = middleName;
+        setAutoGenGender();
     }
 
     private void setAutoGenGender()

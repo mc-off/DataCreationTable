@@ -133,8 +133,6 @@ public class EditorSQL {
             setUrl(userSQL.getUrl());
             setUser(userSQL.getUser());
             setPassword(userSQL.getPassword());
-
-            System.out.println(userSQL.toString());
         }
         catch (IOException | ParseException e) {
             e.printStackTrace();
