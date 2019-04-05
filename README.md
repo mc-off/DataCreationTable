@@ -20,7 +20,7 @@ These libraries are automatically downloaded because of used Maven with written 
 
 In **Main.java** class there is one start parameter - max users number, that can be generate.
 
-In **SQL.EditorSQL.java** class there are three parameters for connecting to your data.SQL database server:
+In **userSQL.json** file, located in resources folder, there are three parameters for connecting to your data.SQL database server:
 
 1. url, where **fintech** - name of your database.
 
