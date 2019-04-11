@@ -84,7 +84,6 @@ public class IteratorSQL {
             String dataString = "";
             while (resultSet.next())
                 dataString = resultSet.getString("surname");
-            System.out.println(dataString);
             return dataString;
         }
         catch (SQLException e)
